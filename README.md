@@ -1023,10 +1023,10 @@
                 <li><a href="#featured">Projects</a></li>
                 <li><a href="#capabilities">Capabilities</a></li>
                 <li><a href="#about">About</a></li>
-                <li><a href="#resume">Resume</a></li>
+                <li><a href="Harshavardhaan_Resume.pdf">Download Resume</a></li>
             </ul>
             <div class="nav-socials">
-                <a href="https://www.linkedin.com/in/harshavardhaan-c-199102291/" target="_blank" title="LinkedIn" aria-label="LinkedIn">LinkedIn</a>
+                <a href="https://www.linkedin.com/in/harshavardhaan-c-199102291/" target="_blank" title="LinkedIn" aria-label="LinkedIn" rel="noopener noreferrer">LinkedIn</a>
                 <a href="https://github.com/harshavardhaan-finance" target="_blank" title="GitHub" aria-label="GitHub">GitHub</a>
             </div>
         </div>
@@ -1049,22 +1049,7 @@
             </div>
         </div>
     </section>
-
-    <!-- Target Roles -->
-    <section class="roles">
-        <div class="container">
-            <h3>Roles I'm Targeting</h3>
-            <div class="roles-grid">
-                <div class="role-chip">FP&A Analyst</div>
-                <div class="role-chip">Financial Analyst</div>
-                <div class="role-chip">Corporate Finance Analyst</div>
-                <div class="role-chip">Treasury Analyst</div>
-                <div class="role-chip">Business Finance Analyst</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Featured Projects -->
+<!-- Featured Projects -->
     <section class="featured-projects" id="featured">
         <div class="container">
             <h2>Selected Work</h2>
@@ -1365,10 +1350,7 @@
                 <div class="tool-item">
                     <div class="tool-name">Financial Modeling</div>
                 </div>
-                <div class="tool-item">
-                    <div class="tool-name">Python</div>
-                </div>
-            </div>
+</div>
         </div>
     </section>
 
@@ -1396,7 +1378,7 @@
             <p>Explore my projects above or download my resume to learn more about my finance and analytics experience.</p>
             <div class="cta-buttons">
                 <a href="Harshavardhaan_Resume.pdf" class="btn btn-primary" target="_blank" rel="noopener" download>Download Resume</a>
-                <a href="https://www.linkedin.com/in/harshavardhaan-c-199102291/" target="_blank" class="btn btn-outline">View LinkedIn</a>
+                <a href="https://www.linkedin.com/in/harshavardhaan-c-199102291/" target="_blank" class="btn btn-outline" rel="noopener noreferrer">View LinkedIn</a>
             </div>
         </div>
     </section>
@@ -1412,7 +1394,7 @@
                 </div>
                 <div class="contact-item">
                     <h4>LinkedIn</h4>
-                    <a href="https://www.linkedin.com/in/harshavardhaan-c-199102291/" target="_blank">View Profile</a>
+                    <a href="https://www.linkedin.com/in/harshavardhaan-c-199102291/" target="_blank" rel="noopener noreferrer">View Profile</a>
                 </div>
                 <div class="contact-item">
                     <h4>GitHub</h4>
@@ -1429,7 +1411,7 @@
             <p class="footer-tagline">Finance & FP&A | Financial Modeling | Business Analytics</p>
             <div class="footer-links">
                 <a href="https://github.com/harshavardhaan-finance" target="_blank">GitHub</a>
-                <a href="https://www.linkedin.com/in/harshavardhaan-c-199102291/" target="_blank">LinkedIn</a>
+                <a href="https://www.linkedin.com/in/harshavardhaan-c-199102291/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
                 <a href="mailto:harshavardhaan.c21@gmail.com">Email</a>
             </div>
             <div class="footer-bottom">
