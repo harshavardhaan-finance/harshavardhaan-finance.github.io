@@ -4,8 +4,314 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Harsha Vardhaan - Financial Analytics & Modeling Portfolio</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+        }
+
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #0066cc;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #0066cc;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #0066cc 0%, #004499 100%);
+            color: white;
+            padding: 100px 20px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            margin: 0 10px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .btn-primary {
+            background: #ff6b35;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border-color: white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: #0066cc;
+        }
+
+        .about {
+            padding: 80px 20px;
+            background: #f5f5f5;
+        }
+
+        .about h2, .projects h2, .contact h2 {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            color: #333;
+        }
+
+        .about-text {
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            font-size: 1.1rem;
+            color: #666;
+            text-align: center;
+            line-height: 1.8;
+        }
+
+        .skills {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .skill-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .skill-card h3 {
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .skill-card p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .projects {
+            padding: 80px 20px;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            border: 1px solid #e0e0e0;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .project-header {
+            background: linear-gradient(135deg, #0066cc 0%, #004499 100%);
+            color: white;
+            padding: 1.5rem;
+        }
+
+        .project-title {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+        }
+
+        .project-body {
+            padding: 1.5rem;
+        }
+
+        .project-description {
+            color: #666;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tech-tag {
+            background: #f5f5f5;
+            color: #0066cc;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .project-links a {
+            flex: 1;
+            padding: 0.75rem;
+            border-radius: 5px;
+            text-align: center;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            background: #333;
+            color: white;
+        }
+
+        .project-links a:hover {
+            background: #0066cc;
+        }
+
+        .contact {
+            background: #f5f5f5;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .contact-text {
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            font-size: 1.1rem;
+            color: #666;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+        }
+
+        .social-links a {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #0066cc;
+            transition: all 0.3s;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            text-decoration: none;
+        }
+
+        .social-links a:hover {
+            background: #0066cc;
+            color: white;
+            transform: translateY(-5px);
+        }
+
+        .footer {
+            background: #1a1a1a;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            .nav-links {
+                gap: 1rem;
+            }
+            .btn {
+                display: block;
+                margin: 10px 0;
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Navigation -->
@@ -24,14 +330,10 @@
     <!-- Hero Section -->
     <section id="home" class="hero">
         <div class="container">
-            <div class="hero-content">
-                <h1>Financial Analytics & Modeling</h1>
-                <p>Expert in Excel Financial Models, Power BI Dashboards, SQL Analytics, and Project Finance</p>
-                <div class="hero-buttons">
-                    <a href="#projects" class="btn btn-primary">View Projects</a>
-                    <a href="#contact" class="btn btn-secondary">Get in Touch</a>
-                </div>
-            </div>
+            <h1>Financial Analytics & Modeling</h1>
+            <p>Expert in Excel Financial Models, Power BI Dashboards, SQL Analytics, and Project Finance</p>
+            <a href="#projects" class="btn btn-primary">View Projects</a>
+            <a href="#contact" class="btn btn-secondary">Get in Touch</a>
         </div>
     </section>
 
@@ -39,29 +341,23 @@
     <section id="about" class="about">
         <div class="container">
             <h2>About Me</h2>
-            <div class="about-content">
-                <p>I specialize in creating sophisticated financial models, dashboards, and analytics solutions for business intelligence and financial planning. My expertise spans:</p>
-                <div class="skills">
-                    <div class="skill-card">
-                        <i class="fas fa-chart-line"></i>
-                        <h3>Financial Modeling</h3>
-                        <p>DCF valuation, sensitivity analysis, and integrated financial statements</p>
-                    </div>
-                    <div class="skill-card">
-                        <i class="fas fa-chart-bar"></i>
-                        <h3>Business Intelligence</h3>
-                        <p>Power BI dashboards, KPI reporting, and executive analytics</p>
-                    </div>
-                    <div class="skill-card">
-                        <i class="fas fa-database"></i>
-                        <h3>Data Analytics</h3>
-                        <p>SQL analysis, working capital metrics, and performance reporting</p>
-                    </div>
-                    <div class="skill-card">
-                        <i class="fas fa-project-diagram"></i>
-                        <h3>Project Finance</h3>
-                        <p>Capital budgeting, debt financing, and investment evaluation</p>
-                    </div>
+            <p class="about-text">I specialize in creating sophisticated financial models, dashboards, and analytics solutions for business intelligence and financial planning.</p>
+            <div class="skills">
+                <div class="skill-card">
+                    <h3>📊 Financial Modeling</h3>
+                    <p>DCF valuation, sensitivity analysis, and integrated financial statements</p>
+                </div>
+                <div class="skill-card">
+                    <h3>📈 Business Intelligence</h3>
+                    <p>Power BI dashboards, KPI reporting, and executive analytics</p>
+                </div>
+                <div class="skill-card">
+                    <h3>🗄️ Data Analytics</h3>
+                    <p>SQL analysis, working capital metrics, and performance reporting</p>
+                </div>
+                <div class="skill-card">
+                    <h3>💼 Project Finance</h3>
+                    <p>Capital budgeting, debt financing, and investment evaluation</p>
                 </div>
             </div>
         </div>
@@ -72,7 +368,6 @@
         <div class="container">
             <h2>Featured Projects</h2>
             <div class="projects-grid">
-                <!-- Project 1 -->
                 <div class="project-card">
                     <div class="project-header">
                         <h3 class="project-title">13-Week Cash Flow Forecast</h3>
@@ -85,14 +380,11 @@
                             <span class="tech-tag">Cash Flow</span>
                         </div>
                         <div class="project-links">
-                            <a href="https://github.com/harshavardhaan-finance/13-week-cash-flow-forecast" target="_blank" class="btn-github">
-                                <i class="fab fa-github"></i> GitHub
-                            </a>
+                            <a href="https://github.com/harshavardhaan-finance/13-week-cash-flow-forecast" target="_blank">GitHub</a>
                         </div>
                     </div>
                 </div>
 
-                <!-- Project 2 -->
                 <div class="project-card">
                     <div class="project-header">
                         <h3 class="project-title">Financial Modeling - Business Valuation</h3>
@@ -105,14 +397,11 @@
                             <span class="tech-tag">Valuation</span>
                         </div>
                         <div class="project-links">
-                            <a href="https://github.com/harshavardhaan-finance/financial-modeling-business-valuation" target="_blank" class="btn-github">
-                                <i class="fab fa-github"></i> GitHub
-                            </a>
+                            <a href="https://github.com/harshavardhaan-finance/financial-modeling-business-valuation" target="_blank">GitHub</a>
                         </div>
                     </div>
                 </div>
 
-                <!-- Project 3 -->
                 <div class="project-card">
                     <div class="project-header">
                         <h3 class="project-title">Financial Sales Dashboard - Power BI</h3>
@@ -122,17 +411,14 @@
                         <div class="project-tech">
                             <span class="tech-tag">Power BI</span>
                             <span class="tech-tag">DAX</span>
-                            <span class="tech-tag">Business Intelligence</span>
+                            <span class="tech-tag">BI</span>
                         </div>
                         <div class="project-links">
-                            <a href="https://github.com/harshavardhaan-finance/financial-sales-dashboard-powerbi" target="_blank" class="btn-github">
-                                <i class="fab fa-github"></i> GitHub
-                            </a>
+                            <a href="https://github.com/harshavardhaan-finance/financial-sales-dashboard-powerbi" target="_blank">GitHub</a>
                         </div>
                     </div>
                 </div>
 
-                <!-- Project 4 -->
                 <div class="project-card">
                     <div class="project-header">
                         <h3 class="project-title">Production Budget & Materials Planning</h3>
@@ -145,14 +431,11 @@
                             <span class="tech-tag">Hedging</span>
                         </div>
                         <div class="project-links">
-                            <a href="https://github.com/harshavardhaan-finance/production-budget-materials-planning" target="_blank" class="btn-github">
-                                <i class="fab fa-github"></i> GitHub
-                            </a>
+                            <a href="https://github.com/harshavardhaan-finance/production-budget-materials-planning" target="_blank">GitHub</a>
                         </div>
                     </div>
                 </div>
 
-                <!-- Project 5 -->
                 <div class="project-card">
                     <div class="project-header">
                         <h3 class="project-title">Sales Budget Forecast & Variance Analysis</h3>
@@ -165,14 +448,11 @@
                             <span class="tech-tag">Forecasting</span>
                         </div>
                         <div class="project-links">
-                            <a href="https://github.com/harshavardhaan-finance/sales-budget-forecast-variance-analysis" target="_blank" class="btn-github">
-                                <i class="fab fa-github"></i> GitHub
-                            </a>
+                            <a href="https://github.com/harshavardhaan-finance/sales-budget-forecast-variance-analysis" target="_blank">GitHub</a>
                         </div>
                     </div>
                 </div>
 
-                <!-- Project 6 -->
                 <div class="project-card">
                     <div class="project-header">
                         <h3 class="project-title">Utility-Scale Solar Project Finance</h3>
@@ -185,14 +465,11 @@
                             <span class="tech-tag">DCF</span>
                         </div>
                         <div class="project-links">
-                            <a href="https://github.com/harshavardhaan-finance/utility-scale-solar-project-evaluation-finance-model" target="_blank" class="btn-github">
-                                <i class="fab fa-github"></i> GitHub
-                            </a>
+                            <a href="https://github.com/harshavardhaan-finance/utility-scale-solar-project-evaluation-finance-model" target="_blank">GitHub</a>
                         </div>
                     </div>
                 </div>
 
-                <!-- Project 7 -->
                 <div class="project-card">
                     <div class="project-header">
                         <h3 class="project-title">Working Capital Analytics</h3>
@@ -205,14 +482,11 @@
                             <span class="tech-tag">Analytics</span>
                         </div>
                         <div class="project-links">
-                            <a href="https://github.com/harshavardhaan-finance/working-capital-analytics" target="_blank" class="btn-github">
-                                <i class="fab fa-github"></i> GitHub
-                            </a>
+                            <a href="https://github.com/harshavardhaan-finance/working-capital-analytics" target="_blank">GitHub</a>
                         </div>
                     </div>
                 </div>
 
-                <!-- Project 8 -->
                 <div class="project-card">
                     <div class="project-header">
                         <h3 class="project-title">Annapurna Capital Series B Financial Model</h3>
@@ -222,12 +496,10 @@
                         <div class="project-tech">
                             <span class="tech-tag">Excel</span>
                             <span class="tech-tag">Valuation</span>
-                            <span class="tech-tag">Startup Finance</span>
+                            <span class="tech-tag">Startup</span>
                         </div>
                         <div class="project-links">
-                            <a href="https://github.com/harshavardhaan-finance/annapurna-capital-series-b-financial-model" target="_blank" class="btn-github">
-                                <i class="fab fa-github"></i> GitHub
-                            </a>
+                            <a href="https://github.com/harshavardhaan-finance/annapurna-capital-series-b-financial-model" target="_blank">GitHub</a>
                         </div>
                     </div>
                 </div>
@@ -239,35 +511,27 @@
     <section id="contact" class="contact">
         <div class="container">
             <h2>Get in Touch</h2>
-            <div class="contact-content">
-                <p>Interested in my work? Let's connect!</p>
-                <div class="social-links">
-                    <a href="https://github.com/harshavardhaan-finance" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
-                    <a href="https://linkedin.com" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                    <a href="mailto:contact@example.com" title="Email"><i class="fas fa-envelope"></i></a>
-                </div>
+            <p class="contact-text">Interested in my work? Let's connect!</p>
+            <div class="social-links">
+                <a href="https://github.com/harshavardhaan-finance" target="_blank" title="GitHub">GitHub</a>
+                <a href="https://linkedin.com" target="_blank" title="LinkedIn">LinkedIn</a>
+                <a href="mailto:contact@example.com" title="Email">Email</a>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
     <footer class="footer">
-        <div class="container">
-            <p>&copy; 2026 Harsha Vardhaan. All rights reserved.</p>
-        </div>
+        <p>&copy; 2026 Harsha Vardhaan. All rights reserved.</p>
     </footer>
 
     <script>
-        // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
                 if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
             });
         });
