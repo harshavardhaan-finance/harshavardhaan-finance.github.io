@@ -7,9 +7,9 @@
     <meta http-equiv="pragma" content="no-cache">
     <meta http-equiv="expires" content="0">
     <title>Harshavardhaan | Finance & FP&A | Financial Modeling & Analytics</title>
-    <meta name="description" content="Finance portfolio showcasing financial modeling, FP&A, treasury, valuation, Power BI, SQL and business analytics projects.">
+    <meta name="description" content="CMA qualified finance portfolio showcasing financial modelling, analysis, valuation, FP&A and business analytics projects.">
     <meta name="keywords" content="Finance, FP&A, Financial Modeling, Corporate Finance, Treasury, Business Analytics, Power BI, SQL">
-    <meta property="og:title" content="Harshavardhaan | Finance & FP&A Professional">
+    <meta property="og:title" content="Harshavardhaan | CMA Qualified | Finance & Analysis">
     <meta property="og:description" content="Financial Modeling • Analytics • Decision Support">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://harshavardhaan-finance.github.io/">
@@ -17,15 +17,15 @@
     <style>
         /* ========== DESIGN TOKENS ========== */
         :root {
-            --color-dark: #0f1419;
-            --color-darker: #0a0e13;
-            --color-card: #1a1f2e;
-            --color-border: #2a3142;
-            --color-text: #e4e6eb;
-            --color-text-secondary: #9ca3af;
-            --color-accent: #3b82f6;
-            --color-accent-dark: #1e40af;
-            --color-accent-light: #60a5fa;
+            --color-dark: #0f172a;
+            --color-darker: #0b1220;
+            --color-card: #111c2f;
+            --color-border: #263449;
+            --color-text: #e5e7eb;
+            --color-text-secondary: #a7b0bf;
+            --color-accent: #4f8cff;
+            --color-accent-dark: #2859b8;
+            --color-accent-light: #78a9ff;
             --color-white: #ffffff;
             --color-success: #10b981;
             
@@ -45,8 +45,8 @@
             --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.2);
             --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.3);
             
-            --radius: 0.5rem;
-            --radius-lg: 0.75rem;
+            --radius: 0.65rem;
+            --radius-lg: 0.9rem;
         }
 
         /* ========== RESET & BASE ========== */
@@ -217,7 +217,7 @@
             justify-content: center;
             position: relative;
             overflow: hidden;
-            background: linear-gradient(135deg, var(--color-dark) 0%, var(--color-darker) 100%);
+            background: var(--color-dark);
         }
 
         .hero::before {
@@ -227,7 +227,7 @@
             right: -10%;
             width: 600px;
             height: 600px;
-            background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(79, 140, 255, 0.08) 0%, transparent 70%);
             border-radius: 50%;
             pointer-events: none;
         }
@@ -1012,6 +1012,78 @@
                 flex-direction: column;
             }
         }
+    
+        /* ========== FINAL VISUAL POLISH ========== */
+        .hero-label {
+            background: rgba(79, 140, 255, 0.08);
+            border-color: rgba(79, 140, 255, 0.28);
+        }
+
+        .hero h1 {
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-subtitle {
+            color: var(--color-text);
+            max-width: 760px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-description {
+            max-width: 760px;
+        }
+
+        .featured-project,
+        .project-card,
+        .capability-card,
+        .approach-step,
+        .tool-item {
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        }
+
+        .featured-project:hover,
+        .project-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .featured-project-image {
+            background: #0b1220;
+        }
+
+        .about-content {
+            background: var(--color-card);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: 2rem 2.25rem;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        }
+
+        .about-text {
+            font-size: 1.05rem;
+        }
+
+        .credential-badge {
+            background: rgba(79, 140, 255, 0.07);
+            border-color: rgba(79, 140, 255, 0.25);
+        }
+
+        .section-kicker {
+            color: var(--color-accent);
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        @media (max-width: 768px) {
+            .about-content {
+                padding: 1.5rem;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -1036,10 +1108,10 @@
     <section class="hero" id="home">
         <div class="container">
             <div class="hero-content">
-                <div class="hero-label">Finance & FP&A Professional</div>
-                <h1>Financial Modeling • Analytics • Decision Support</h1>
-                <p class="hero-subtitle">Building financial models, forecasting systems, dashboards and analytical tools that turn business data into decision-ready insights.</p>
-                <p class="hero-description">I work across financial planning & analysis, corporate finance, treasury management, business analytics and financial valuation. My approach combines financial expertise with structured analytical thinking and practical Excel, Power BI and SQL skills.</p>
+                <div class="hero-label">CMA Qualified • June 2026</div>
+                <h1>Finance • Analysis • Decision Support</h1>
+                <p class="hero-subtitle">Interested in using financial analysis and data to support better business decisions.</p>
+                <p class="hero-description">I am a CMA qualified in June 2026 with a B.Com background. My interests include financial analysis, financial modelling, FP&A, corporate finance, treasury, valuation and business analytics, with a focus on using numbers and structured analysis to support decision-making.</p>
                 <div class="hero-ctas">
                     <a href="#featured" class="btn btn-primary">View Projects</a>
                     <a href="Harshavardhaan_Resume.pdf" class="btn btn-secondary" target="_blank" rel="noopener" download>Download Resume</a>
@@ -1361,12 +1433,12 @@
             <div class="about-content">
                 <div class="about-header">
                     <div class="about-credentials">
-                        <span class="credential-badge">CMA</span>
+                        <span class="credential-badge">CMA Qualified</span>
                         <span class="credential-badge">B.Com</span>
-                        <span class="credential-badge">Finance & Analytics</span>
+                        <span class="credential-badge">Finance & Analytics Interests</span>
                     </div>
                 </div>
-                <p class="about-text">I'm a finance professional with a background in financial analysis and business analytics. My work combines finance fundamentals with practical modeling skills and analytical problem-solving. I build financial models, forecasting systems and dashboards that support decision-making in FP&A, corporate finance and treasury contexts. I'm experienced in Excel-based financial modeling, Power BI dashboards, SQL analytics and financial analysis across budgeting, valuation, project finance and working capital management.</p>
+                <p class="about-text">I am a CMA qualified in June 2026 with a B.Com background and an interest in finance-assisted analysis and decision-making. I enjoy working with financial data, building financial models, analysing business performance and turning numbers into clear insights. My current areas of interest include FP&A, financial modelling, corporate finance, treasury, valuation and business analytics. I am developing these skills through hands-on projects using Excel, Power BI and SQL.</p>
             </div>
         </div>
     </section>
@@ -1375,7 +1447,7 @@
     <section class="cta-section" id="resume">
         <div class="container">
             <h2>Interested in Working Together?</h2>
-            <p>Explore my projects above or download my resume to learn more about my finance and analytics experience.</p>
+            <p>Explore my projects and resume to see how I apply finance concepts, modelling and analytics to practical case studies.</p>
             <div class="cta-buttons">
                 <a href="Harshavardhaan_Resume.pdf" class="btn btn-primary" target="_blank" rel="noopener" download>Download Resume</a>
                 <a href="https://www.linkedin.com/in/harshavardhaan-c-199102291/" target="_blank" class="btn btn-outline" rel="noopener noreferrer">View LinkedIn</a>
@@ -1408,7 +1480,7 @@
     <footer>
         <div class="footer-content">
             <div class="footer-brand">Harshavardhaan</div>
-            <p class="footer-tagline">Finance & FP&A | Financial Modeling | Business Analytics</p>
+            <p class="footer-tagline">CMA Qualified | Finance & Analysis | Financial Modeling & Analytics</p>
             <div class="footer-links">
                 <a href="https://github.com/harshavardhaan-finance" target="_blank">GitHub</a>
                 <a href="https://www.linkedin.com/in/harshavardhaan-c-199102291/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
