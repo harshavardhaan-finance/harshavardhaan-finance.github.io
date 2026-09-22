@@ -1,0 +1,745 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Harshavardhaan | Finance & Analysis Portfolio</title>
+<link rel="stylesheet" href="styles.css">
+
+<style>
+.ai-disclosure {
+  margin-top: 1.25rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(148, 163, 184, 0.16);
+  font-size: 0.78rem;
+  line-height: 1.55;
+  color: rgba(148, 163, 184, 0.72);
+}
+.ai-disclosure strong {
+  color: rgba(203, 213, 225, 0.78);
+  font-weight: 500;
+}
+.builds-actions {
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+.case-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 18px 0 26px;
+}
+.case-tags .tag {
+  font-size: 12px;
+  font-weight: 750;
+  letter-spacing: .02em;
+  color: var(--blue2);
+  background: rgba(77, 141, 255, .1);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 6px 13px;
+}
+.case-overview {
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--muted);
+  max-width: 820px;
+  margin-bottom: 36px;
+}
+.case-columns {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-bottom: 44px;
+}
+.case-block {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  padding: 24px 26px;
+}
+.case-block h3 {
+  font-size: 13px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--blue2);
+  font-weight: 800;
+  margin: 0 0 16px;
+}
+.case-block ul {
+  margin: 0;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+.case-block li {
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: #cbd7e7;
+}
+@media (max-width: 800px) {
+  .case-columns { grid-template-columns: 1fr; }
+}
+</style>
+
+</head>
+<body>
+
+<noscript>Please enable JavaScript for project galleries, skill filters and image viewing.</noscript>
+
+<div id="home">
+<header class="navbar">
+  <div class="container nav">
+    <a class="brand" href="#top">Harshavardhaan</a>
+    <nav class="navlinks">
+      <a href="#projects">Projects</a>
+      <a href="#builds">Builds</a>
+      <a href="#capabilities">Capabilities</a>
+      <a href="#about">About</a>
+      <a href="assets/resume/Harshavardhaan_Resume.pdf" target="_blank" rel="noopener noreferrer" class="resume">Resume</a>
+      <a href="#contact" class="connect-nav">Connect With Me</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+<section class="hero">
+  <div class="container hero-grid">
+    <div>
+      <div class="eyebrow">CMA Qualified · June 2026</div>
+      <h1>Finance, Analysis &amp;<br><span>Decision Support.</span></h1>
+      <p class="lead">Interested in using financial analysis, modelling, costing and data to support better business decisions.</p>
+      <div class="actions">
+        <a class="btn primary" href="#projects">View All Projects</a>
+        <a class="btn" href="assets/resume/Harshavardhaan_Resume.pdf" target="_blank" rel="noopener noreferrer">View Resume</a>
+        <a class="btn" href="mailto:harshavardhaan.c21@gmail.com">Email Me</a>
+      </div>
+    </div>
+    <aside class="focus-panel">
+      <div class="panel-title">Areas of Interest</div>
+      <div class="focus"><span class="dot"></span>Financial Analysis</div>
+      <div class="focus"><span class="dot"></span>Financial Modelling</div>
+      <div class="focus"><span class="dot"></span>FP&amp;A</div>
+      <div class="focus"><span class="dot"></span>Corporate Finance</div>
+      <div class="focus"><span class="dot"></span>Costing &amp; Financial Management</div>
+      <div class="focus"><span class="dot"></span>Valuation &amp; Business Analytics</div>
+    </aside>
+  </div>
+</section>
+
+<section id="projects">
+<div class="container">
+  <div class="section-head">
+    <div class="kicker">Selected Work</div>
+    <h2 class="section-title">All Projects</h2>
+    <p class="section-desc">Nine finance, modelling, FP&amp;A, analytics and decision-support projects.
+    Every card opens the complete project page with all available screenshots and report work.</p>
+  </div>
+
+  <div class="project-grid">
+
+    <article class="card" onclick="openCase('case1')">
+      <div class="thumb"><img src="assets/images/project-image-01.png" alt="Three-Statement Modelling &amp; DCF Valuation"></div>
+      <div class="cardbody">
+        <div class="kicker">Project 01 · Financial Modelling · DCF · Excel</div>
+        <h3>Three-Statement Modelling &amp; DCF Valuation</h3>
+        <p>Built a dynamic five-year financial model for a fictional premium tea shop, forecasting revenue, COGS and operating expenses, integrating the income statement, balance sheet and cash flow statement, calculating FCFF and performing DCF, scenario and sensitivity analysis.</p>
+        <button type="button" class="case-link" onclick="event.stopPropagation();openCase('case1');return false;">View Full Case Study →</button>
+      </div>
+    </article>
+
+    <article class="card" onclick="openCase('case2')">
+      <div class="thumb"><img src="assets/images/project-image-02.png" alt="13-Week Cash Flow Forecast"></div>
+      <div class="cardbody">
+        <div class="kicker">Project 02 · Cash Flow · Forecasting · Excel</div>
+        <h3>13-Week Cash Flow Forecast</h3>
+        <p>Built a short-term cash flow forecast to analyse liquidity, expected inflows and outflows, and cash position over a rolling 13-week period.</p>
+        <button type="button" class="case-link" onclick="event.stopPropagation();openCase('case2');return false;">View Full Case Study →</button>
+      </div>
+    </article>
+
+    <article class="card" onclick="openCase('case3')">
+      <div class="thumb"><img src="assets/images/project-image-03.png" alt="Sales Budget vs Actual Variance &amp; Forecast"></div>
+      <div class="cardbody">
+        <div class="kicker">Project 03 · FP&amp;A · Budgeting · Forecasting · Excel</div>
+        <h3>Sales Budget vs Actual Variance &amp; Forecast</h3>
+        <p>Built an end-to-end FP&amp;A sales planning model using historical seasonality, seasonal indices, regression and management guidance to prepare the annual sales budget, analyse revenue, volume and price variances, and update rolling forecasts.</p>
+        <button type="button" class="case-link" onclick="event.stopPropagation();openCase('case3');return false;">View Full Case Study →</button>
+      </div>
+    </article>
+
+    <article class="card" onclick="openCase('case4')">
+      <div class="thumb"><img src="assets/images/project-image-04.png" alt="Material Budget &amp; Hedging Analysis"></div>
+      <div class="cardbody">
+        <div class="kicker">Project 04 · Cost Analysis · Budgeting · Hedging · Excel</div>
+        <h3>Material Budget &amp; Hedging Analysis</h3>
+        <p>Built an integrated production, materials and commodity-risk model covering production and inventory planning, aluminium requirements, procurement budgeting, regression and moving-average price forecasts, futures hedging, budget-vs-actual analysis and hedge effectiveness.</p>
+        <button type="button" class="case-link" onclick="event.stopPropagation();openCase('case4');return false;">View Full Case Study →</button>
+      </div>
+    </article>
+
+    <article class="card" onclick="openCase('case5')">
+      <div class="thumb"><img src="assets/images/project-image-05.png" alt="Project Decision Analysis"></div>
+      <div class="cardbody">
+        <div class="kicker">Project 05 · Capital Allocation · Project Evaluation · Excel</div>
+        <h3>Project Decision Analysis</h3>
+        <p>Evaluated a project investment decision using financial analysis and an executive summary focused on project economics and decision support.</p>
+        <button type="button" class="case-link" onclick="event.stopPropagation();openCase('case5');return false;">View Full Case Study →</button>
+      </div>
+    </article>
+
+    <article class="card" onclick="openCase('case6')">
+      <div class="thumb"><img src="assets/images/project-image-06.png" alt="Power BI Financial Dashboard"></div>
+      <div class="cardbody">
+        <div class="kicker">Project 06 · Power BI · DAX · Financial Analytics</div>
+        <h3>Power BI Financial Dashboard</h3>
+        <p>Developed a financial dashboard to present key performance indicators and business trends in an interactive management-reporting format.</p>
+        <button type="button" class="case-link" onclick="event.stopPropagation();openCase('case6');return false;">View Full Case Study →</button>
+      </div>
+    </article>
+
+    <article class="card" onclick="openCase('case7')">
+      <div class="thumb"><img src="assets/images/project-image-07.png" alt="Portfolio Optimization"></div>
+      <div class="cardbody">
+        <div class="kicker">Project 07 · Portfolio Analytics · Risk · Excel</div>
+        <h3>Portfolio Optimization</h3>
+        <p>Analysed portfolio risk and return using an efficient frontier, Monte Carlo simulation, portfolio optimization and risk/hedging analysis.</p>
+        <button type="button" class="case-link" onclick="event.stopPropagation();openCase('case7');return false;">View Full Case Study →</button>
+      </div>
+    </article>
+
+    <article class="card" onclick="openCase('case8')">
+      <div class="thumb"><img src="assets/images/project-image-08.png" alt="SQL Working Capital Analytics"></div>
+      <div class="cardbody">
+        <div class="kicker">Project 08 · SQL · Working Capital · Financial Analytics</div>
+        <h3>SQL Working Capital Analytics</h3>
+        <p>Used SQL to analyse working-capital drivers including inventory, receivables, suppliers and working-capital ratios.</p>
+        <button type="button" class="case-link" onclick="event.stopPropagation();openCase('case8');return false;">View Full Case Study →</button>
+      </div>
+    </article>
+
+    <article class="card" onclick="openCase('case9')">
+      <div class="thumb"><img src="assets/images/project-image-09.png" alt="Startup Valuation &amp; Presentation"></div>
+      <div class="cardbody">
+        <div class="kicker">Project 09 · Financial Modelling · Valuation · Excel · Presentation</div>
+        <h3>Startup Valuation &amp; Presentation</h3>
+        <p>Developed a startup valuation case study combining financial modelling, valuation analysis, scenario and sensitivity analysis, cap-table analysis, market sizing (TAM/SAM/SOM) and investor-oriented presentation work.</p>
+        <button type="button" class="case-link" onclick="event.stopPropagation();openCase('case9');return false;">View Full Case Study →</button>
+      </div>
+    </article>
+
+  </div>
+</div>
+</section>
+
+<section id="builds">
+<div class="container">
+  <div class="section-head">
+    <div class="kicker">Beyond Finance</div>
+    <h2 class="section-title">Builds</h2>
+    <p class="section-desc">My early, hands-on steps into Python, AI automation and machine learning — built low-code/no-code, "vibe coding" style, while I'm still learning. Four small working apps, built alongside the finance work above.</p>
+  </div>
+
+  <div class="contact-actions builds-actions">
+    <a class="contact-action" href="https://huggingface.co/spaces/harsha-finance/FiQL" target="_blank" rel="noopener noreferrer">
+      <div><strong>Finsta QuickLoans</strong><small>An instant-loan web app powered by a machine-learning credit risk model — it scores probability of default from applicant data and auto-prices the interest rate, eligible loan amount and repayment schedule.</small></div>
+      <span class="arrow">→</span>
+    </a>
+    <a class="contact-action" href="https://claude.ai/artifact/EcTZF9aYG4snMwDfFeJasu" target="_blank" rel="noopener noreferrer">
+      <div><strong>Python by Hand</strong><small>An interactive Python learning portal with bite-sized lessons and a side-by-side code editor, built to learn Python for finance data work by writing and running code directly in the browser.</small></div>
+      <span class="arrow">→</span>
+    </a>
+    <a class="contact-action" href="https://chatgpt.com/g/g-6a9c3a3b478c8191bb7454360b02e5be-deep-equity-research" target="_blank" rel="noopener noreferrer">
+      <div><strong>Deep Equity Research</strong><small>A custom GPT built to run structured equity research — pulling company data and turning it into an analyst-style research workflow.</small></div>
+      <span class="arrow">→</span>
+    </a>
+    <a class="contact-action" href="https://dostpay.ai.studio/" target="_blank" rel="noopener noreferrer">
+      <div><strong>DostPay (EquiSplit)</strong><small>A group expense-splitting and settlement app for friends, roommates and trips — built on Google AI Studio, with bill-by-bill netting, multi-currency support and debt simplification.</small></div>
+      <span class="arrow">→</span>
+    </a>
+  </div>
+</div>
+</section>
+
+<section id="capabilities">
+<div class="container">
+  <div class="section-head">
+    <div class="kicker">Skills &amp; Capabilities</div>
+    <h2 class="section-title">What I Work With</h2>
+    <p class="section-desc">A practical mix of finance, analytical and technical skills developed through professional experience, coursework and hands-on projects.</p>
+  </div>
+
+  <div class="capability-wrap">
+    <div class="skill-tabs" role="tablist" aria-label="Skill categories">
+      <button class="skill-tab active" type="button" aria-selected="true" data-filter="key">Key Skills</button>
+      <button class="skill-tab" type="button" aria-selected="false" data-filter="finance">Finance</button>
+      <button class="skill-tab" type="button" aria-selected="false" data-filter="technical">Technical</button>
+      <button class="skill-tab" type="button" aria-selected="false" data-filter="soft">Soft Skills</button>
+      <button class="skill-tab" type="button" aria-selected="false" data-filter="other">Other Skills</button>
+    </div>
+
+    <div class="skill-grid" id="skillGrid">
+      <article class="skill-card" data-category="finance" data-key="true"><div class="skill-icon">FR</div><strong>Financial Reporting</strong><span>Financial statements and reporting</span></article>
+      <article class="skill-card" data-category="finance" data-key="true"><div class="skill-icon">FS</div><strong>Financial Statement Analysis</strong><span>Analysis of financial performance</span></article>
+      <article class="skill-card" data-category="finance" data-key="true"><div class="skill-icon">BF</div><strong>Budgeting &amp; Forecasting</strong><span>Planning and forward-looking analysis</span></article>
+      <article class="skill-card" data-category="finance" data-key="true"><div class="skill-icon">VA</div><strong>Variance Analysis</strong><span>Budget vs actual analysis</span></article>
+      <article class="skill-card" data-category="finance" data-key="true"><div class="skill-icon">FM</div><strong>Financial Modelling</strong><span>Forecasting, valuation and scenarios</span></article>
+      <article class="skill-card" data-category="finance" data-key="true"><div class="skill-icon">CO</div><strong>Costing</strong><span>Cost analysis and cost management</span></article>
+      <article class="skill-card" data-category="finance" data-key="true"><div class="skill-icon">FM</div><strong>Financial Management</strong><span>Financial planning and management</span></article>
+      <article class="skill-card" data-key="false" data-category="other"><div class="skill-icon">TX</div><strong>Taxation</strong><span>Tax preparation and compliance support</span></article>
+      <article class="skill-card" data-key="false" data-category="other"><div class="skill-icon">AU</div><strong>Audit</strong><span>Audit and compliance support</span></article>
+      <article class="skill-card" data-category="technical" data-key="true"><div class="skill-icon">XL</div><strong>Microsoft Excel</strong><span>Financial analysis and modelling</span></article>
+      <article class="skill-card" data-category="technical" data-key="true"><div class="skill-icon">SQL</div><strong>SQL</strong><span>Financial and business data analysis</span></article>
+      <article class="skill-card" data-category="technical" data-key="true"><div class="skill-icon">BI</div><strong>Power BI</strong><span>Interactive dashboards and reporting</span></article>
+      <article class="skill-card" data-category="technical" data-key="true"><div class="skill-icon">AI</div><strong>Artificial Intelligence</strong><span>AI tools for research, analysis and productivity</span></article>
+      <article class="skill-card" data-category="soft" data-key="true"><div class="skill-icon">AT</div><strong>Analytical Thinking</strong><span>Structured financial problem solving</span></article>
+      <article class="skill-card" data-category="soft" data-key="true"><div class="skill-icon">PS</div><strong>Problem Solving</strong><span>Practical, detail-oriented approach</span></article>
+      <article class="skill-card" data-key="false" data-category="soft"><div class="skill-icon">AD</div><strong>Attention to Detail</strong><span>Accuracy across financial work</span></article>
+      <article class="skill-card" data-key="false" data-category="soft"><div class="skill-icon">BC</div><strong>Business Communication</strong><span>Clear professional communication</span></article>
+      <article class="skill-card" data-key="false" data-category="other"><div class="skill-icon">TP</div><strong>Tally Prime</strong><span>Accounting and financial records</span></article>
+    </div>
+
+    <div class="capability-note">Skills shown here reflect the technical and professional skills listed in my resume.</div>
+  </div>
+</div>
+</section>
+
+<section id="about">
+<div class="container about">
+  <div>
+    <div class="kicker">About Me</div>
+    <h2 class="section-title">A finance professional building toward Industry 4.0 — one step at a time.</h2>
+    <div class="badges">
+      <span class="badge">CMA Qualified</span>
+      <span class="badge">B.Com</span>
+      <span class="badge">Excel</span>
+      <span class="badge">SQL</span>
+      <span class="badge">Power BI</span>
+      <span class="badge">Financial Modelling</span>
+      <span class="badge">Learning Python &amp; AI</span>
+    </div>
+  </div>
+
+  <div class="about-copy">
+    <p>I am a Qualified Cost and Management Accountant (CMA) with a B.Com background and experience across accounting, financial reporting, taxation, cost audit and statutory compliance.</p>
+    <p>My experience has included preparing financial statements, inventory valuation and job costing, supporting tax planning and filings, and working with clients, banks and regulators to resolve financial and compliance queries.</p>
+    <p>Alongside this foundation, I have developed practical skills in Excel, SQL, Power BI and financial modelling through hands-on projects covering FP&amp;A, budgeting and forecasting, variance analysis, working capital, valuation and corporate finance.</p>
+    <p>I'm also slowly starting to pivot toward where finance is heading next. Beyond Excel, Power BI, SQL and everyday AI tools, I've begun learning <strong>Python, AI automation and machine learning</strong> — mostly through a low-code/no-code, "vibe coding" approach. I'm early in this, but I'd rather learn by building small, real things than just read about it. The <a href="#builds">Builds section</a> below has a few of those early attempts.</p>
+    <p>I am now looking to build my career as a finance professional who's comfortable working alongside data and AI tools — a step toward being <strong>Industry 4.0-ready</strong> — with a particular interest in <strong>FP&amp;A, corporate finance and costing &amp; financial management</strong>. I want to combine financial understanding with analytical and technical skills to support better business decisions.</p>
+  </div>
+</div>
+</section>
+
+<section class="contact contact-section" id="contact">
+<div class="container">
+  <div class="eyebrow">Contact</div>
+  <h2 class="section-title">Let's Connect</h2>
+  <p class="section-desc">For opportunities, project discussions or professional enquiries, feel free to reach out.</p>
+
+  <div class="contact-panel">
+    <div class="contact-email">
+      <div>
+        <div class="label">Email</div>
+        <div class="address">harshavardhaan.c21@gmail.com</div>
+      </div>
+      <a class="btn primary" href="mailto:harshavardhaan.c21@gmail.com">Email Me</a>
+    </div>
+
+    <div class="contact-actions">
+      <a class="contact-action" href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=harshavardhaan.c21@gmail.com" target="_blank" rel="noopener noreferrer"><div><strong>Gmail</strong><small>Open Gmail compose</small></div><span class="arrow">→</span></a>
+      <a class="contact-action" href="https://outlook.office.com/mail/deeplink/compose?to=harshavardhaan.c21@gmail.com" target="_blank" rel="noopener noreferrer"><div><strong>Outlook</strong><small>Open Outlook compose</small></div><span class="arrow">→</span></a>
+      <a class="contact-action" href="https://www.linkedin.com/in/harshavardhaan-c-199102291/" target="_blank" rel="noopener noreferrer"><div><strong>LinkedIn</strong><small>Connect professionally</small></div><span class="arrow">→</span></a>
+      <a class="contact-action" href="https://github.com/harshavardhaan-finance" target="_blank" rel="noopener noreferrer"><div><strong>GitHub</strong><small>View my projects</small></div><span class="arrow">→</span></a>
+    </div>
+  </div>
+</div>
+</section>
+</main>
+
+<footer>
+  <div class="container footer">
+    <span>© 2026 Harshavardhaan</span>
+    <span>CMA Qualified · Finance &amp; Analysis</span>
+  </div>
+</footer>
+</div>
+
+<!-- PROJECT 01 -->
+<section id="case1" class="case">
+<div class="container">
+  <button class="back" onclick="closeCase()">← Back to all projects</button>
+  <div class="eyebrow">Project 01 · Financial Modelling · DCF · Excel</div>
+  <h1>Three-Statement Modelling &amp; DCF Valuation</h1>
+  <div class="case-tags"><span class="tag">Financial Modelling</span><span class="tag">Three-Statement Model</span><span class="tag">DCF</span><span class="tag">FCFF</span><span class="tag">Scenario Analysis</span><span class="tag">Excel</span></div>
+  <p class="case-overview">A fully linked five-year three-statement financial model built for a fictional premium tea shop, designed so operating assumptions flow straight through to valuation output rather than sitting in a separate spreadsheet.</p>
+  <div class="case-columns">
+    <div class="case-block">
+      <h3>Approach</h3>
+      <ul>
+        <li>Built and linked the income statement, balance sheet and cash flow statement across a five-year horizon</li>
+        <li>Calculated Free Cash Flow to the Firm (FCFF) directly from the linked model outputs</li>
+        <li>Applied a Discounted Cash Flow (DCF) methodology to derive enterprise value</li>
+        <li>Layered in scenario and sensitivity analysis to test how key assumptions move the valuation</li>
+      </ul>
+    </div>
+    <div class="case-block">
+      <h3>Key Outcomes</h3>
+      <ul>
+        <li>Base-case model produced an enterprise value of INR 1,10,03,425</li>
+        <li>Created a reusable, fully linked valuation framework rather than a single static number</li>
+        <li>Made it possible to see, assumption by assumption, what drives enterprise value up or down</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="gallery">
+    <figure><img src="assets/images/Screenshot%20(310).png" alt="Three-Statement Modelling &amp; DCF Valuation output 1"><figcaption>Output 1</figcaption></figure>
+    <figure><img src="assets/images/Screenshot%20(311).png" alt="Three-Statement Modelling &amp; DCF Valuation output 2"><figcaption>Output 2</figcaption></figure>
+    <figure><img src="assets/images/Screenshot%20(312).png" alt="Three-Statement Modelling &amp; DCF Valuation output 3"><figcaption>Output 3</figcaption></figure>
+    <figure><img src="assets/images/Screenshot%20(313).png" alt="Three-Statement Modelling &amp; DCF Valuation output 4"><figcaption>Output 4</figcaption></figure>
+    <figure><img src="assets/images/Screenshot%20(314).png" alt="Three-Statement Modelling &amp; DCF Valuation output 5"><figcaption>Output 5</figcaption></figure>
+  </div>
+
+  <div class="report">
+    <div class="eyebrow">Report Output</div>
+    <h2>Project Report</h2>
+    <iframe src="assets/reports/document-01.pdf" title="Project report"></iframe>
+    <a class="btn" href="assets/reports/document-01.pdf" target="_blank">Open Full PDF ↗</a>
+  </div>
+</div>
+
+    <div class="ai-disclosure"><strong>AI &amp; Work Disclosure</strong><br>AI tools were used selectively for research support, drafting and presentation development. The financial modelling, calculations, analysis and core workings were completed independently by me.</div>
+</section>
+
+<!-- PROJECT 02 -->
+<section id="case2" class="case">
+<div class="container">
+  <button class="back" onclick="closeCase()">← Back to all projects</button>
+  <div class="eyebrow">Project 02 · Cash Flow · Forecasting · Excel</div>
+  <h1>13-Week Cash Flow Forecast</h1>
+  <div class="case-tags"><span class="tag">Cash Flow Forecasting</span><span class="tag">Treasury</span><span class="tag">Liquidity Planning</span><span class="tag">Excel</span></div>
+  <p class="case-overview">A rolling 13-week cash flow forecast built to give a short-term, week-by-week view of liquidity rather than relying on month-end snapshots.</p>
+  <div class="case-columns">
+    <div class="case-block">
+      <h3>Approach</h3>
+      <ul>
+        <li>Mapped customer collections, vendor payments and other cash movements onto a weekly timeline</li>
+        <li>Rolled these into weekly cash inflows, outflows and running ending balances</li>
+        <li>Structured the model to roll forward as actuals replace forecast weeks</li>
+      </ul>
+    </div>
+    <div class="case-block">
+      <h3>Key Outcomes</h3>
+      <ul>
+        <li>Produced a week-by-week liquidity view across the full 13-week horizon</li>
+        <li>Made cash surplus and deficit periods visible well ahead of time</li>
+        <li>Flagged weeks approaching the minimum cash buffer, supporting short-term treasury decisions</li>
+      </ul>
+    </div>
+  </div>
+  <div class="gallery"><figure><img src="assets/images/project-image-02.png" alt="13-Week Cash Flow Forecast output 1"><figcaption>Output 1</figcaption></figure></div>
+</div>
+
+    <div class="ai-disclosure"><strong>AI &amp; Work Disclosure</strong><br>AI tools were used selectively for research support, drafting and presentation development. The financial modelling, calculations, analysis and core workings were completed independently by me.</div>
+</section>
+
+<!-- PROJECT 03 -->
+<section id="case3" class="case">
+<div class="container">
+  <button class="back" onclick="closeCase()">← Back to all projects</button>
+  <div class="eyebrow">Project 03 · FP&amp;A · Budgeting · Forecasting · Excel</div>
+  <h1>Sales Budget vs Actual Variance &amp; Forecast</h1>
+  <div class="case-tags"><span class="tag">FP&amp;A</span><span class="tag">Budgeting</span><span class="tag">Regression Forecasting</span><span class="tag">Variance Analysis</span><span class="tag">Excel</span></div>
+  <p class="case-overview">An annual sales budget combined with a Q1 budget-vs-actual variance review, built to explain not just whether the business beat or missed budget, but why.</p>
+  <div class="case-columns">
+    <div class="case-block">
+      <h3>Approach</h3>
+      <ul>
+        <li>Built seasonal indices from historical sales data to capture demand patterns across the year</li>
+        <li>Applied regression forecasting alongside management guidance and price assumptions to set the annual budget</li>
+        <li>Ran a Q1 budget-vs-actual variance analysis, isolating volume, price and mix effects</li>
+        <li>Fed the variance findings back into a revised rolling forecast</li>
+      </ul>
+    </div>
+    <div class="case-block">
+      <h3>Key Outcomes</h3>
+      <ul>
+        <li>Converted a static annual budget into a rolling, self-correcting forecast</li>
+        <li>Produced a management-ready view of the revenue, volume and price drivers behind the outlook</li>
+        <li>Packaged the analysis into a formal Budget Review Presentation (linked below)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="gallery">
+    <figure><img src="assets/images/project-image-03.png" alt="Sales Budget vs Actual Variance &amp; Forecast output 1"><figcaption>Output 1</figcaption></figure>
+    <figure><img src="assets/images/project-image-10.png" alt="Sales Budget vs Actual Variance &amp; Forecast output 2"><figcaption>Output 2</figcaption></figure>
+    <figure><img src="assets/images/project-image-11.png" alt="Sales Budget vs Actual Variance &amp; Forecast output 3"><figcaption>Output 3</figcaption></figure>
+    <figure><img src="assets/images/project-image-12.png" alt="Sales Budget vs Actual Variance &amp; Forecast output 4"><figcaption>Output 4</figcaption></figure>
+    <figure><img src="assets/images/project-image-13.png" alt="Sales Budget vs Actual Variance &amp; Forecast output 5"><figcaption>Output 5</figcaption></figure>
+  </div>
+
+  <div class="report">
+    <div class="eyebrow">FP&amp;A Presentation</div>
+    <h2>Budget Review Presentation</h2>
+    <iframe src="assets/reports/Budget_review.pdf" title="Budget Review Presentation"></iframe>
+    <a class="btn" href="assets/reports/Budget_review.pdf" target="_blank">Open Full PDF ↗</a>
+  </div>
+</div>
+
+    <div class="ai-disclosure"><strong>AI &amp; Work Disclosure</strong><br>AI tools were used selectively for research support, drafting and presentation development. The financial modelling, calculations, analysis and core workings were completed independently by me.</div>
+</section>
+
+<!-- PROJECT 04 -->
+<section id="case4" class="case">
+<div class="container">
+  <button class="back" onclick="closeCase()">← Back to all projects</button>
+  <div class="eyebrow">Project 04 · Cost Analysis · Budgeting · Hedging · Excel</div>
+  <h1>Material Budget &amp; Hedging Analysis</h1>
+  <div class="case-tags"><span class="tag">Cost Analysis</span><span class="tag">Commodity Hedging</span><span class="tag">Procurement Budgeting</span><span class="tag">Regression</span><span class="tag">Excel</span></div>
+  <p class="case-overview">A material cost and hedging model built around aluminium as the key input, connecting production planning through to commodity-price risk management.</p>
+  <div class="case-columns">
+    <div class="case-block">
+      <h3>Approach</h3>
+      <ul>
+        <li>Modelled production and inventory planning to derive aluminium requirement schedules</li>
+        <li>Forecast commodity prices using regression and moving-average techniques</li>
+        <li>Built a procurement budget from the requirement and price forecasts</li>
+        <li>Layered in futures hedging and hedge-effectiveness analysis against that exposure</li>
+      </ul>
+    </div>
+    <div class="case-block">
+      <h3>Key Outcomes</h3>
+      <ul>
+        <li>Quantified how the hedge changes the business's input-cost exposure</li>
+        <li>Connected commodity-price movements directly to budget-vs-actual cost outcomes</li>
+        <li>Gave a basis for deciding how much of the aluminium exposure to hedge</li>
+      </ul>
+    </div>
+  </div>
+  <div class="gallery">
+    <figure><img src="assets/images/project-image-04.png" alt="Material Budget &amp; Hedging Analysis output 1"><figcaption>Output 1</figcaption></figure>
+    <figure><img src="assets/images/project-image-14.png" alt="Material Budget &amp; Hedging Analysis output 2"><figcaption>Output 2</figcaption></figure>
+    <figure><img src="assets/images/project-image-15.png" alt="Material Budget &amp; Hedging Analysis output 3"><figcaption>Output 3</figcaption></figure>
+    <figure><img src="assets/images/project-image-16.png" alt="Material Budget &amp; Hedging Analysis output 4"><figcaption>Output 4</figcaption></figure>
+    <figure><img src="assets/images/project-image-17.png" alt="Material Budget &amp; Hedging Analysis output 5"><figcaption>Output 5</figcaption></figure>
+  </div>
+</div>
+
+    <div class="ai-disclosure"><strong>AI &amp; Work Disclosure</strong><br>AI tools were used selectively for research support, drafting and presentation development. The financial modelling, calculations, analysis and core workings were completed independently by me.</div>
+</section>
+
+<!-- PROJECT 05 -->
+<section id="case5" class="case">
+<div class="container">
+  <button class="back" onclick="closeCase()">← Back to all projects</button>
+  <div class="eyebrow">Project 05 · Capital Allocation · Project Evaluation · Excel</div>
+  <h1>Project Decision Analysis</h1>
+  <div class="case-tags"><span class="tag">Capital Budgeting</span><span class="tag">DCF</span><span class="tag">DSCR</span><span class="tag">Scenario Analysis</span><span class="tag">Excel</span></div>
+  <p class="case-overview">A utility-scale solar project evaluation model built to support a go/no-go capital allocation decision, combining project economics with the debt side of the financing.</p>
+  <div class="case-columns">
+    <div class="case-block">
+      <h3>Approach</h3>
+      <ul>
+        <li>Modelled project-level cash flows across the life of the solar asset</li>
+        <li>Applied DCF valuation to the project cash flows to derive NPV and IRR</li>
+        <li>Layered in debt financing assumptions and calculated the Debt Service Coverage Ratio (DSCR)</li>
+        <li>Ran scenario and sensitivity analysis across the key value drivers</li>
+      </ul>
+    </div>
+    <div class="case-block">
+      <h3>Key Outcomes</h3>
+      <ul>
+        <li>Brought NPV, IRR, payback period and DSCR into a single investment-decision framework</li>
+        <li>Sensitivities highlighted which variables the project's returns are most exposed to</li>
+        <li>Gave decision-makers a structured basis for approving or rejecting the investment</li>
+      </ul>
+    </div>
+  </div>
+  <div class="gallery"><figure><img src="assets/images/project-image-05.png" alt="Project Decision Analysis output 1"><figcaption>Output 1</figcaption></figure></div>
+  <div class="report">
+    <div class="eyebrow">Report Output</div>
+    <h2>Project Report</h2>
+    <iframe src="assets/reports/document-02.pdf" title="Project report"></iframe>
+    <a class="btn" href="assets/reports/document-02.pdf" target="_blank">Open Full PDF ↗</a>
+  </div>
+</div>
+
+    <div class="ai-disclosure"><strong>AI &amp; Work Disclosure</strong><br>AI tools were used selectively for research support, drafting and presentation development. The financial modelling, calculations, analysis and core workings were completed independently by me.</div>
+</section>
+
+<!-- PROJECT 06 -->
+<section id="case6" class="case">
+<div class="container">
+  <button class="back" onclick="closeCase()">← Back to all projects</button>
+  <div class="eyebrow">Project 06 · Power BI · DAX · Financial Analytics</div>
+  <h1>Power BI Financial Dashboard</h1>
+  <div class="case-tags"><span class="tag">Power BI</span><span class="tag">DAX</span><span class="tag">Data Modelling</span><span class="tag">Financial Analytics</span></div>
+  <p class="case-overview">An interactive Power BI dashboard built on a structured data model, designed for management to explore profitability rather than read it off a static report.</p>
+  <div class="case-columns">
+    <div class="case-block">
+      <h3>Approach</h3>
+      <ul>
+        <li>Built a structured data model connecting transactional data to customer, product, business-unit and regional dimensions</li>
+        <li>Wrote DAX measures for revenue, gross profit, EBITDA and margin percentages</li>
+        <li>Added monthly trend analysis to track performance over time</li>
+        <li>Designed the report layer for drill-down exploration rather than one-way reporting</li>
+      </ul>
+    </div>
+    <div class="case-block">
+      <h3>Key Outcomes</h3>
+      <ul>
+        <li>Turned raw transactional data into an interactive management dashboard</li>
+        <li>Made profitability and performance patterns easier to identify across customers, products and regions</li>
+        <li>Let users investigate a trend rather than just observe it</li>
+      </ul>
+    </div>
+  </div>
+  <div class="gallery"><figure><img src="assets/images/project-image-06.png" alt="Power BI Financial Dashboard output 1"><figcaption>Output 1</figcaption></figure></div>
+</div>
+
+    <div class="ai-disclosure"><strong>AI &amp; Work Disclosure</strong><br>AI tools were used selectively for research support, drafting and presentation development. The financial modelling, calculations, analysis and core workings were completed independently by me.</div>
+</section>
+
+<!-- PROJECT 07 -->
+<section id="case7" class="case">
+<div class="container">
+  <button class="back" onclick="closeCase()">← Back to all projects</button>
+  <div class="eyebrow">Project 07 · Portfolio Analytics · Risk · Excel</div>
+  <h1>Portfolio Optimization</h1>
+  <div class="case-tags"><span class="tag">Portfolio Theory</span><span class="tag">Efficient Frontier</span><span class="tag">Monte Carlo Simulation</span><span class="tag">Risk Analysis</span><span class="tag">Excel</span></div>
+  <p class="case-overview">A portfolio risk-and-return analysis built to map the trade-off between expected return and volatility, rather than defaulting to a single fixed allocation.</p>
+  <div class="case-columns">
+    <div class="case-block">
+      <h3>Approach</h3>
+      <ul>
+        <li>Built an efficient-frontier analysis across the candidate asset mix</li>
+        <li>Ran Monte Carlo simulation to stress-test return and volatility outcomes</li>
+        <li>Applied portfolio optimisation techniques to identify efficient allocations</li>
+        <li>Layered in risk and hedging analysis around the optimised mixes</li>
+      </ul>
+    </div>
+    <div class="case-block">
+      <h3>Key Outcomes</h3>
+      <ul>
+        <li>Identified portfolio mixes along the risk-return frontier rather than a single "best" portfolio</li>
+        <li>Made the trade-off between expected return, volatility and diversification explicit and visual</li>
+        <li>Gave a framework for choosing an allocation based on risk appetite rather than guesswork</li>
+      </ul>
+    </div>
+  </div>
+  <div class="gallery">
+    <figure><img src="assets/images/project-image-07.png" alt="Portfolio Optimization output 1"><figcaption>Output 1</figcaption></figure>
+    <figure><img src="assets/images/project-image-18.png" alt="Portfolio Optimization output 2"><figcaption>Output 2</figcaption></figure>
+    <figure><img src="assets/images/project-image-19.png" alt="Portfolio Optimization output 3"><figcaption>Output 3</figcaption></figure>
+    <figure><img src="assets/images/project-image-20.png" alt="Portfolio Optimization output 4"><figcaption>Output 4</figcaption></figure>
+  </div>
+</div>
+
+    <div class="ai-disclosure"><strong>AI &amp; Work Disclosure</strong><br>AI tools were used selectively for research support, drafting and presentation development. The financial modelling, calculations, analysis and core workings were completed independently by me.</div>
+</section>
+
+<!-- PROJECT 08 -->
+<section id="case8" class="case">
+<div class="container">
+  <button class="back" onclick="closeCase()">← Back to all projects</button>
+  <div class="eyebrow">Project 08 · SQL · Working Capital · Financial Analytics</div>
+  <h1>SQL Working Capital Analytics</h1>
+  <div class="case-tags"><span class="tag">SQL</span><span class="tag">Working Capital</span><span class="tag">DSO / DPO / DIO</span><span class="tag">Cash Conversion Cycle</span></div>
+  <p class="case-overview">A SQL-based working capital analysis built directly on receivables, payables and inventory data, rather than on pre-aggregated spreadsheet extracts.</p>
+  <div class="case-columns">
+    <div class="case-block">
+      <h3>Approach</h3>
+      <ul>
+        <li>Wrote SQL queries against receivables, payables and inventory tables to calculate DSO, DPO and DIO</li>
+        <li>Combined the three metrics to compute the Cash Conversion Cycle (CCC)</li>
+        <li>Broke the CCC down by driver to see where working capital was actually tied up</li>
+        <li>Translated the raw query outputs into a working-capital analysis a non-technical reader could use</li>
+      </ul>
+    </div>
+    <div class="case-block">
+      <h3>Key Outcomes</h3>
+      <ul>
+        <li>Isolated the receivables, inventory and payables drivers behind the CCC</li>
+        <li>Turned database-level outputs into actionable working-capital insights</li>
+        <li>Demonstrated SQL as a direct tool for financial analysis, not just data retrieval</li>
+      </ul>
+    </div>
+  </div>
+  <div class="gallery">
+    <figure><img src="assets/images/project-image-08.png" alt="SQL Working Capital Analytics output 1"><figcaption>Output 1</figcaption></figure>
+    <figure><img src="assets/images/project-image-21.png" alt="SQL Working Capital Analytics output 2"><figcaption>Output 2</figcaption></figure>
+    <figure><img src="assets/images/project-image-22.png" alt="SQL Working Capital Analytics output 3"><figcaption>Output 3</figcaption></figure>
+    <figure><img src="assets/images/project-image-23.png" alt="SQL Working Capital Analytics output 4"><figcaption>Output 4</figcaption></figure>
+  </div>
+</div>
+
+    <div class="ai-disclosure"><strong>AI &amp; Work Disclosure</strong><br>AI tools were used selectively for research support, drafting and presentation development. The financial modelling, calculations, analysis and core workings were completed independently by me.</div>
+</section>
+
+<!-- PROJECT 09 -->
+<section id="case9" class="case">
+<div class="container">
+  <button class="back" onclick="closeCase()">← Back to all projects</button>
+  <div class="eyebrow">Project 09 · Financial Modelling · Valuation · Excel · Presentation</div>
+  <h1>Startup Valuation &amp; Presentation</h1>
+  <div class="case-tags"><span class="tag">Valuation</span><span class="tag">DCF</span><span class="tag">Comparable Company Analysis</span><span class="tag">Cap Table</span><span class="tag">Investor Presentation</span></div>
+  <p class="case-overview">An end-to-end startup valuation and Series B fundraising case study, built to mirror how an investment or corporate development team would actually evaluate and present a deal.</p>
+  <div class="case-columns">
+    <div class="case-block">
+      <h3>Approach</h3>
+      <ul>
+        <li>Built a five-year financial model as the foundation for valuation</li>
+        <li>Ran DCF valuation and comparable-company analysis side by side to triangulate a value range</li>
+        <li>Sized the market using a TAM/SAM/SOM framework</li>
+        <li>Modelled the cap table alongside scenario and sensitivity analysis on the key assumptions</li>
+        <li>Packaged the full analysis into an investor-facing Series B pitch deck</li>
+      </ul>
+    </div>
+    <div class="case-block">
+      <h3>Key Outcomes</h3>
+      <ul>
+        <li>DCF valuation indicated approximately INR 176 Cr of equity value</li>
+        <li>Comparable-company analysis produced a INR 315–1,183 Cr range, bracketing the DCF output</li>
+        <li>Recommended Series B terms: INR 560 Cr pre-money, INR 700 Cr post-money, 20% dilution against a INR 140 Cr raise</li>
+        <li>Delivered as a full pitchbook, not just a spreadsheet (linked below)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="gallery">
+    <figure><img src="assets/images/project-image-09.png" alt="Startup Valuation &amp; Presentation output 1"><figcaption>Output 1</figcaption></figure>
+    <figure><img src="assets/images/project-image-24.png" alt="Startup Valuation &amp; Presentation output 2"><figcaption>Output 2</figcaption></figure>
+    <figure><img src="assets/images/project-image-25.png" alt="Startup Valuation &amp; Presentation output 3"><figcaption>Output 3</figcaption></figure>
+    <figure><img src="assets/images/project-image-26.png" alt="Startup Valuation &amp; Presentation output 4"><figcaption>Output 4</figcaption></figure>
+    <figure><img src="assets/images/project-image-27.png" alt="Startup Valuation &amp; Presentation output 5"><figcaption>Output 5</figcaption></figure>
+  </div>
+
+  <div class="report">
+    <div class="eyebrow">Investor Presentation</div>
+    <h2>Series B Pitchbook</h2>
+    <iframe src="assets/reports/Annapurna_Capital_SeriesB_Pitchbook.pdf" title="Annapurna Capital Series B Pitchbook"></iframe>
+    <a class="btn" href="assets/reports/Annapurna_Capital_SeriesB_Pitchbook.pdf" target="_blank">Open Full PDF ↗</a>
+  </div>
+</div>
+
+    <div class="ai-disclosure"><strong>AI &amp; Work Disclosure</strong><br>AI tools were used selectively for research support, drafting and presentation development. The financial modelling, calculations, analysis and core workings were completed independently by me.</div>
+</section>
+
+<div id="imageLightbox" class="image-lightbox" onclick="closeImage(event)">
+  <button class="lightbox-close" type="button" onclick="closeImage(event)" aria-label="Close image">×</button>
+  <img id="lightboxImage" src="" alt="">
+  <div id="lightboxCaption" class="lightbox-caption"></div>
+</div>
+
+<div id="resumePanel" class="resume-panel">
+  <div class="resume-box">
+    <button class="close" onclick="closeResume()">×</button>
+    <iframe src="assets/resume/Harshavardhaan_Resume.pdf" title="Harshavardhaan Resume"></iframe>
+  </div>
+</div>
+
+<script src="script.js" defer></script>
+</body>
+</html>
