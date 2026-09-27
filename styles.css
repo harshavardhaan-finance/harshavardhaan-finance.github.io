@@ -366,6 +366,30 @@ main { position: relative; z-index: 1; }
 .exp h3 span { color: var(--accent-soft); font-weight: 500; font-size: 15px; }
 .exp p { color: var(--text-2); font-size: 14px; }
 
+/* ============ Vision ============ */
+.vision-quote { margin: 0 0 22px; padding: clamp(28px, 4vw, 48px) clamp(24px, 4vw, 56px); overflow: hidden; }
+.vision-quote::after {
+  content: ""; position: absolute; inset: auto -10% -60% 30%; height: 140%; z-index: -1; pointer-events: none;
+  background: radial-gradient(ellipse at 70% 100%, color-mix(in srgb, var(--accent-2) 24%, transparent), transparent 60%);
+}
+.vq-mark { position: absolute; top: -18px; left: 18px; font-family: var(--font-display); font-size: 160px; line-height: 1; color: var(--accent); opacity: 0.25; }
+.vision-quote p { position: relative; font-family: var(--font-display); font-size: clamp(22px, 2.6vw, 32px); line-height: 1.35; letter-spacing: -0.02em; font-weight: 500; max-width: 900px; margin: 0; }
+.vision-quote cite { display: block; margin-top: 18px; font-style: normal; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-soft); }
+.horizons { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; position: relative; }
+.horizon { padding: 26px; display: flex; flex-direction: column; gap: 10px; }
+.horizon:hover { transform: translateY(-4px); }
+.hz-step { font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent-3); }
+.horizon h3 { font-size: 21px; font-weight: 600; }
+.horizon p { color: var(--text-2); font-size: 15px; }
+.horizon:nth-child(2) .hz-step { color: var(--accent-soft); }
+.horizon:nth-child(3) .hz-step { color: var(--accent-2); }
+.principles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin-top: 22px; border-top: 1px solid var(--border); }
+.principles div { padding: 20px 20px 0 0; display: flex; flex-direction: column; gap: 4px; }
+.principles strong { font-family: var(--font-display); font-size: 16px; font-weight: 600; }
+.principles span { color: var(--text-2); font-size: 14px; }
+@media (max-width: 900px) { .horizons { grid-template-columns: 1fr; } .principles { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 560px) { .principles { grid-template-columns: 1fr; } }
+
 /* ============ Contact ============ */
 .contact { padding-bottom: 20px; }
 .contact-panel { max-width: 900px; margin: 0 auto; padding: 28px; }
