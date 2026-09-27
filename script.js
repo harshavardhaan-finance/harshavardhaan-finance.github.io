@@ -41,6 +41,17 @@
       });
     }
     links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + current));
+    const sn = caseView.hidden ? null : caseView.querySelector('.case-subnav');
+    if (sn) {
+      let cur = '';
+      sn.querySelectorAll('[data-jump]').forEach(b => { const t = document.getElementById(b.dataset.jump); if (t && t.getBoundingClientRect().top < 200) cur = b.dataset.jump; });
+      sn.querySelectorAll('[data-jump]').forEach(b => b.classList.toggle('active', b.dataset.jump === (cur || 'cs-overview')));
+    }
+    const r = document.querySelector('.rail');
+    if (r) {
+      r.classList.toggle('show', !home.hidden && scrollY > innerHeight * 0.6);
+      r.querySelectorAll('a').forEach(a => a.classList.toggle('active', a.dataset.rail === (current || 'top')));
+    }
   };
   addEventListener('scroll', onScroll, { passive: true });
 
@@ -130,11 +141,21 @@
 
   // ---------- Project cards ----------
   const grid = document.getElementById('projectGrid');
+  const GROUPS = {
+    'dcf-valuation': ['valuation'], 'project-decision-analysis': ['valuation'], 'startup-valuation': ['valuation'],
+    'sales-budget-variance': ['fpa'], 'material-budget-hedging': ['fpa'],
+    'cash-flow-13-week': ['treasury'], 'sql-working-capital': ['treasury', 'analytics'],
+    'power-bi-dashboard': ['analytics'], 'portfolio-optimization': ['analytics'],
+  };
+  const FILTERS = [['all', 'All projects'], ['valuation', 'Modelling & valuation'], ['fpa', 'FP&A & costing'], ['treasury', 'Treasury & working capital'], ['analytics', 'Analytics & BI']];
+  grid.insertAdjacentHTML('beforebegin', `<div class="proj-filters reveal" role="toolbar" aria-label="Filter projects">${FILTERS.map(([k, l], i) =>
+    `<button class="filter${i ? '' : ' active'}" type="button" data-pf="${k}" aria-pressed="${!i}">${esc(l)} <span class="mono">${k === 'all' ? projects.length : projects.filter(p => (GROUPS[p.id] || []).includes(k)).length}</span></button>`).join('')}</div>`);
   grid.innerHTML = projects.map((p, i) => `
-    <article class="proj card reveal">
+    <article class="proj card reveal${i === 0 ? ' featured' : ''}" data-groups="${(GROUPS[p.id] || []).join(' ')}">
       <a class="proj-main" href="#/project/${p.id}" aria-label="Open case study: ${esc(p.title)}">
         <div class="proj-thumb">
           <img src="assets/covers/${p.id}.jpg" alt="${esc(p.title)}" loading="lazy" decoding="async" />
+          <span class="proj-peek" aria-hidden="true">Read case study ${arrow}</span>
           <span class="proj-count">${p.images.length} image${p.images.length > 1 ? 's' : ''}${p.report ? ' · PDF' : ''}</span>
         </div>
         <div class="proj-body">
@@ -151,6 +172,24 @@
         <b aria-hidden="true">↗</b>
       </a>` : ''}
     </article>`).join('');
+
+  document.querySelector('.proj-filters').addEventListener('click', e => {
+    const b = e.target.closest('[data-pf]'); if (!b) return;
+    const k = b.dataset.pf;
+    document.querySelectorAll('[data-pf]').forEach(x => { const on = x === b; x.classList.toggle('active', on); x.setAttribute('aria-pressed', String(on)); });
+    grid.classList.toggle('filtered', k !== 'all');
+    grid.querySelectorAll('.proj').forEach(c => { c.hidden = k !== 'all' && !c.dataset.groups.split(' ').includes(k); c.classList.add('in'); });
+  });
+
+  // ---------- Section hand-offs + side rail ----------
+  const ORDER = [['projects', 'Projects'], ['builds', 'Builds'], ['capabilities', 'Capabilities'], ['about', 'About'], ['vision', 'Vision'], ['contact', 'Contact']];
+  ORDER.forEach(([id], i) => {
+    const next = ORDER[i + 1]; if (!next) return;
+    document.getElementById(id).insertAdjacentHTML('beforeend', `<a class="next-up reveal" href="#${next[0]}"><span class="mono">Up next</span><strong>${next[1]}</strong><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg></a>`);
+  });
+  document.body.insertAdjacentHTML('beforeend', `<nav class="rail" aria-label="Page sections"><a href="#top" data-rail="top"><i></i><span>Top</span></a>${ORDER.map(([id, l]) => `<a href="#${id}" data-rail="${id}"><i></i><span>${l}</span></a>`).join('')}</nav>`);
+  const rail = document.querySelector('.rail');
+  rail.querySelector('[data-rail="top"]').addEventListener('click', e => { e.preventDefault(); history.pushState('', '', location.pathname); scrollTo({ top: 0, behavior: 'smooth' }); });
 
   // ---------- Builds ----------
   const builds = window.BUILDS || [];
@@ -181,8 +220,8 @@
     const next = builds[(idx + 1) % builds.length];
     galleryImages = [{ src: BUILD_IMG + b.cover, alt: b.illustrative ? `${b.title}, illustration` : `${b.title}, screenshot` }];
     caseView.innerHTML = `
-      <button class="back" type="button" data-back="builds"><svg viewBox="0 0 24 24"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>Back to all builds</button>
-      <div class="case-head">
+      <div class="case-top"><button class="back" type="button" data-back="builds"><svg viewBox="0 0 24 24"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>Back to all builds</button><span class="case-count mono">${pad(idx + 1)} / ${pad(builds.length)}</span></div>
+      <div class="case-head" id="cs-overview">
         <div>
           <span class="eyebrow mono">Build ${pad(idx + 1)} · ${esc(b.kicker)}</span>
           <h1 class="case-title">${esc(b.title)}</h1>
@@ -190,8 +229,9 @@
         </div>
         <a class="btn btn-primary" href="${b.url}" target="_blank" rel="noopener noreferrer">${esc(b.cta)} ↗</a>
       </div>
+      ${subnav([['cs-overview', 'Overview'], ['cs-live', 'Preview'], ['cs-how', 'How it works'], ['cs-what', 'What it does']])}
       <p class="case-overview">${esc(b.overview)}</p>
-      <a class="live-model card" href="${b.url}" target="_blank" rel="noopener noreferrer" aria-label="${esc(b.cta)}: ${esc(b.title)}">
+      <a class="live-model card" id="cs-live" href="${b.url}" target="_blank" rel="noopener noreferrer" aria-label="${esc(b.cta)}: ${esc(b.title)}">
         <div class="live-shot">
           <img src="${BUILD_IMG}${b.cover}" alt="${esc(galleryImages[0].alt)}" loading="lazy" decoding="async" />
           <span class="live-play">${playIcon} ${esc(b.cta)}</span>
@@ -205,19 +245,35 @@
         </div>
       </a>
       <div class="build-stats">${b.stats.map(([v, l]) => `<div class="card"><strong class="mono">${esc(v)}</strong><span>${esc(l)}</span></div>`).join('')}</div>
-      <div class="sub-head"><h2>How it works</h2></div>
+      <div class="sub-head" id="cs-how"><h2>How it works</h2></div>
       <ol class="flow">${b.steps.map(([t, d], i) => `<li class="card"><span class="mono">${pad(i + 1)}</span><strong>${esc(t)}</strong><p>${esc(d)}</p></li>`).join('')}</ol>
-      <div class="case-columns">
+      <div class="case-columns" id="cs-what">
         <div class="case-block card"><h3>What it does</h3><ul>${b.features.map(f => `<li>${esc(f)}</li>`).join('')}</ul></div>
         <div class="case-block card outcomes"><h3>What I learned</h3><ul>${b.learned.map(f => `<li>${esc(f)}</li>`).join('')}</ul></div>
       </div>
       <div class="disclosure"><strong>Note</strong><br>${esc(b.note)}${b.illustrative ? ' The cover is an illustration of the concept, not a screenshot of the app.' : ''}</div>
+      ${upNext('#/build/' + next.id, 'Build ' + pad((idx + 1) % builds.length + 1), next.title, next.summary, BUILD_IMG + next.cover)}
       <nav class="case-nav" aria-label="More builds">
         <button class="card" type="button" data-gob="${prev.id}"><small>← Previous build</small><strong>${esc(prev.title)}</strong></button>
         <button class="card next" type="button" data-gob="${next.id}"><small>Next build →</small><strong>${esc(next.title)}</strong></button>
-      </nav>`;
+      </nav>
+      ${keyHint}`;
     document.title = `${b.title} | Harshavardhaan`;
   };
+
+  // ---------- Case study helpers ----------
+  const subnav = items => `<nav class="case-subnav" aria-label="On this page">${items.filter(Boolean).map(([id, l]) => `<button type="button" data-jump="${id}">${esc(l)}</button>`).join('')}</nav>`;
+  const upNext = (href, kind, title, text, img) => `
+      <a class="up-next card" href="${href}">
+        <div class="un-img"><img src="${img}" alt="" loading="lazy" decoding="async" /></div>
+        <div class="un-body">
+          <span class="mono">Up next · ${esc(kind)}</span>
+          <strong>${esc(title)}</strong>
+          <p>${esc(text)}</p>
+          <span class="un-go">Continue ${arrow}</span>
+        </div>
+      </a>`;
+  const keyHint = `<p class="key-hint mono">Tip: use <kbd>←</kbd> <kbd>→</kbd> to browse, <kbd>Esc</kbd> to go back</p>`;
 
   // ---------- Case study view ----------
   let galleryImages = [];
@@ -227,8 +283,8 @@
     const next = projects[(idx + 1) % projects.length];
     galleryImages = p.images.map((f, i) => ({ src: IMG + f, alt: `${p.title}, output ${i + 1}` }));
     caseView.innerHTML = `
-      <button class="back" type="button" data-back><svg viewBox="0 0 24 24"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>Back to all projects</button>
-      <div class="case-head">
+      <div class="case-top"><button class="back" type="button" data-back><svg viewBox="0 0 24 24"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>Back to all projects</button><span class="case-count mono">${pad(idx + 1)} / ${pad(projects.length)}</span></div>
+      <div class="case-head" id="cs-overview">
         <div>
           <span class="eyebrow mono">Project ${pad(idx + 1)} · ${esc(p.kicker)}</span>
           <h1 class="case-title">${esc(p.title)}</h1>
@@ -236,9 +292,10 @@
         </div>
         ${p.highlight ? `<div class="case-highlight card"><strong>${esc(p.highlight.value)}</strong><span>${esc(p.highlight.label)}</span></div>` : ''}
       </div>
+      ${subnav([['cs-overview', 'Overview'], p.artifact && ['cs-live', 'Live model'], ['cs-approach', 'Approach & outcomes'], ['cs-outputs', 'Outputs'], p.report && ['cs-report', 'Report']])}
       <p class="case-overview">${esc(p.overview)}</p>
       ${p.artifact ? `
-      <a class="live-model card" href="${p.artifact.url}" target="_blank" rel="noopener noreferrer" aria-label="Open the interactive model: ${esc(p.artifact.title)}">
+      <a class="live-model card" id="cs-live" href="${p.artifact.url}" target="_blank" rel="noopener noreferrer" aria-label="Open the interactive model: ${esc(p.artifact.title)}">
         <div class="live-shot">
           <img src="${PREVIEWS}${p.artifact.preview}" alt="Preview of the ${esc(p.artifact.title)} interactive model" loading="lazy" decoding="async" />
           <span class="live-play">${playIcon} Open interactive model</span>
@@ -250,11 +307,11 @@
           <span class="btn btn-primary btn-sm">Launch model ↗</span>
         </div>
       </a>` : ''}
-      <div class="case-columns">
+      <div class="case-columns" id="cs-approach">
         <div class="case-block card"><h3>Approach</h3><ul>${p.approach.map(a => `<li>${esc(a)}</li>`).join('')}</ul></div>
         <div class="case-block card outcomes"><h3>Key Outcomes</h3><ul>${p.outcomes.map(o => `<li>${esc(o)}</li>`).join('')}</ul></div>
       </div>
-      <div class="sub-head"><h2>Outputs</h2><span>Click any image to enlarge</span></div>
+      <div class="sub-head" id="cs-outputs"><h2>Outputs</h2><span>Click any image to enlarge</span></div>
       <div class="gallery${p.images.length === 1 ? ' single' : ''}">
         ${galleryImages.map((g, i) => `
           <figure class="card" data-img="${i}">
@@ -263,7 +320,7 @@
           </figure>`).join('')}
       </div>
       ${p.report ? `
-      <div class="report">
+      <div class="report" id="cs-report">
         <span class="eyebrow mono">${esc(p.report.label)}</span>
         <h2>${esc(p.report.title)}</h2>
         <div class="report-frame"><iframe src="${REPORTS}${p.report.file}" title="${esc(p.report.title)}" loading="lazy"></iframe></div>
@@ -273,16 +330,20 @@
         </div>
       </div>` : ''}
       <div class="disclosure"><strong>AI &amp; Work Disclosure</strong><br>AI tools were used selectively for research support, drafting and presentation development. The financial modelling, calculations, analysis and core workings were completed independently by me.</div>
+      ${upNext('#/project/' + next.id, 'Project ' + pad((idx + 1) % projects.length + 1), next.title, next.summary, 'assets/covers/' + next.id + '.jpg')}
       <nav class="case-nav" aria-label="More projects">
         <button class="card" type="button" data-go="${prev.id}"><small>← Previous</small><strong>${esc(prev.title)}</strong></button>
         <button class="card next" type="button" data-go="${next.id}"><small>Next →</small><strong>${esc(next.title)}</strong></button>
-      </nav>`;
+      </nav>
+      ${keyHint}`;
     document.title = `${p.title} | Harshavardhaan`;
   };
 
   caseView.addEventListener('click', e => {
     const fig = e.target.closest('[data-img]');
     if (fig) return openLightbox(+fig.dataset.img);
+    const jump = e.target.closest('[data-jump]');
+    if (jump) { const t = document.getElementById(jump.dataset.jump); if (t) scrollTo({ top: t.getBoundingClientRect().top + scrollY - 150, behavior: reduceMotion ? 'auto' : 'smooth' }); return; }
     const go = e.target.closest('[data-go]');
     if (go) { location.hash = '#/project/' + go.dataset.go; return; }
     const gob = e.target.closest('[data-gob]');
@@ -369,7 +430,12 @@
       return;
     }
     if (!resume.hidden && e.key === 'Escape') return closeResume();
-    if (!caseView.hidden && e.key === 'Escape') location.hash = location.hash.startsWith('#/build/') ? '#builds' : '#projects';
+    if (caseView.hidden) return;
+    if (e.key === 'Escape') location.hash = location.hash.startsWith('#/build/') ? '#builds' : '#projects';
+    if ((e.key === 'ArrowLeft' || e.key === 'ArrowRight') && !e.altKey && !e.metaKey && !e.ctrlKey) {
+      const btn = caseView.querySelector(e.key === 'ArrowRight' ? '.case-nav .next' : '.case-nav button:not(.next)');
+      if (btn) btn.click();
+    }
   });
 
   // ---------- Skill tabs ----------
