@@ -141,6 +141,7 @@
 
   // ---------- Project cards ----------
   const grid = document.getElementById('projectGrid');
+  const FEATURED = 'startup-valuation';
   const GROUPS = {
     'dcf-valuation': ['valuation'], 'project-decision-analysis': ['valuation'], 'startup-valuation': ['valuation'],
     'sales-budget-variance': ['fpa'], 'material-budget-hedging': ['fpa'],
@@ -151,7 +152,7 @@
   grid.insertAdjacentHTML('beforebegin', `<div class="proj-filters reveal" role="toolbar" aria-label="Filter projects">${FILTERS.map(([k, l], i) =>
     `<button class="filter${i ? '' : ' active'}" type="button" data-pf="${k}" aria-pressed="${!i}">${esc(l)} <span class="mono">${k === 'all' ? projects.length : projects.filter(p => (GROUPS[p.id] || []).includes(k)).length}</span></button>`).join('')}</div>`);
   grid.innerHTML = projects.map((p, i) => `
-    <article class="proj card reveal${i === 0 ? ' featured' : ''}" data-groups="${(GROUPS[p.id] || []).join(' ')}">
+    <article class="proj card reveal${p.id === FEATURED ? ' featured' : ''}" data-groups="${(GROUPS[p.id] || []).join(' ')}">
       <a class="proj-main" href="#/project/${p.id}" aria-label="Open case study: ${esc(p.title)}">
         <div class="proj-thumb">
           <img src="assets/covers/${p.id}.jpg" alt="${esc(p.title)}" loading="lazy" decoding="async" />
