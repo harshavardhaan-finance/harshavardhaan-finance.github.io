@@ -194,25 +194,27 @@
 
   // ---------- Builds ----------
   const builds = window.BUILDS || [];
+  const hostOf = u => { try { return new URL(u).hostname.replace(/^www\./, ''); } catch (e) { return ''; } };
   const BUILD_IMG = 'assets/builds/';
-  document.getElementById('buildsGrid').innerHTML = builds.map(b => `
+  document.getElementById('buildsGrid').innerHTML = builds.map((b, i) => `
     <article class="build card reveal">
-      <a class="build-main" href="#/build/${b.id}" aria-label="Details: ${esc(b.title)}">
+      <a class="build-main" href="#/build/${b.id}" aria-label="Explore build: ${esc(b.title)}">
         <div class="build-cover">
           <img src="${BUILD_IMG}${b.cover}" alt="${esc(b.title)}" loading="lazy" decoding="async" />
           ${b.illustrative ? '<span class="cover-tag mono">Illustration</span>' : '<span class="cover-tag mono live"><i></i>Live</span>'}
+          <span class="proj-peek" aria-hidden="true">Explore build ${arrow}</span>
         </div>
         <div class="build-body">
-          <span class="proj-kicker">${esc(b.kicker)}</span>
+          <span class="proj-kicker">Build ${pad(i + 1)} · ${esc(b.kicker)}</span>
           <h3>${esc(b.title)}</h3>
           <p>${esc(b.summary)}</p>
           <div class="build-tools">${b.tools.map(t => `<span>${esc(t)}</span>`).join('')}</div>
         </div>
+        <div class="build-actions">
+          <span class="build-more">Explore build ${arrow}</span>
+          <span class="build-host mono">${esc(hostOf(b.url))}</span>
+        </div>
       </a>
-      <div class="build-actions">
-        <a class="build-more" href="#/build/${b.id}">View details ${arrow}</a>
-        <a class="btn btn-ghost btn-sm" href="${b.url}" target="_blank" rel="noopener noreferrer">${esc(b.cta)} ↗</a>
-      </div>
     </article>`).join('');
 
   const renderBuild = idx => {
@@ -230,7 +232,7 @@
         </div>
         <a class="btn btn-primary" href="${b.url}" target="_blank" rel="noopener noreferrer">${esc(b.cta)} ↗</a>
       </div>
-      ${subnav([['cs-overview', 'Overview'], ['cs-live', 'Preview'], ['cs-how', 'How it works'], ['cs-what', 'What it does']])}
+      ${subnav([['cs-overview', 'Overview'], ['cs-live', 'Preview'], ['cs-how', 'How it works'], ['cs-what', 'What it does'], ['cs-access', 'Access the build']])}
       <p class="case-overview">${esc(b.overview)}</p>
       <a class="live-model card" id="cs-live" href="${b.url}" target="_blank" rel="noopener noreferrer" aria-label="${esc(b.cta)}: ${esc(b.title)}">
         <div class="live-shot">
@@ -253,6 +255,18 @@
         <div class="case-block card outcomes"><h3>What I learned</h3><ul>${b.learned.map(f => `<li>${esc(f)}</li>`).join('')}</ul></div>
       </div>
       <div class="disclosure"><strong>Note</strong><br>${esc(b.note)}${b.illustrative ? ' The cover is an illustration of the concept, not a screenshot of the app.' : ''}</div>
+      <section class="access card" id="cs-access" aria-label="Access the build">
+        <div>
+          <span class="eyebrow mono">Access the build</span>
+          <h2>Try ${esc(b.title)} yourself</h2>
+          <p>${esc(b.access || '')}</p>
+          <code class="access-url mono">${esc(b.url.replace(/^https?:\/\//, ''))}</code>
+        </div>
+        <div class="access-actions">
+          <a class="btn btn-primary" href="${b.url}" target="_blank" rel="noopener noreferrer">${esc(b.cta)} ↗</a>
+          <button class="btn btn-ghost btn-sm copy-link" type="button" data-url="${b.url}">Copy link</button>
+        </div>
+      </section>
       ${upNext('#/build/' + next.id, 'Build ' + pad((idx + 1) % builds.length + 1), next.title, next.summary, BUILD_IMG + next.cover)}
       <nav class="case-nav" aria-label="More builds">
         <button class="card" type="button" data-gob="${prev.id}"><small>← Previous build</small><strong>${esc(prev.title)}</strong></button>
@@ -343,6 +357,8 @@
   caseView.addEventListener('click', e => {
     const fig = e.target.closest('[data-img]');
     if (fig) return openLightbox(+fig.dataset.img);
+    const cl = e.target.closest('.copy-link');
+    if (cl) { navigator.clipboard.writeText(cl.dataset.url).then(() => { cl.textContent = 'Copied ✓'; }).catch(() => { cl.textContent = 'Copy failed'; }); setTimeout(() => { cl.textContent = 'Copy link'; }, 1800); return; }
     const jump = e.target.closest('[data-jump]');
     if (jump) { const t = document.getElementById(jump.dataset.jump); if (t) scrollTo({ top: t.getBoundingClientRect().top + scrollY - 150, behavior: reduceMotion ? 'auto' : 'smooth' }); return; }
     const go = e.target.closest('[data-go]');
