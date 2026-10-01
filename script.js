@@ -31,26 +31,16 @@
 
   // ---------- Scroll progress + active nav ----------
   const links = [...navLinks.querySelectorAll('a[href^="#"]:not([data-resume])')];
+  let currentPage = 'home';
   const onScroll = () => {
     const max = document.documentElement.scrollHeight - innerHeight;
     root.style.setProperty('--scroll', max > 0 ? (scrollY / max).toFixed(4) : 0);
-    let current = '';
-    if (!home.hidden) {
-      home.querySelectorAll('section[id]').forEach(s => {
-        if (s.getBoundingClientRect().top < innerHeight * 0.4) current = s.id;
-      });
-    }
-    links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + current));
+    links.forEach(l => l.classList.toggle('active', !home.hidden && l.getAttribute('href') === '#' + currentPage));
     const sn = caseView.hidden ? null : caseView.querySelector('.case-subnav');
     if (sn) {
       let cur = '';
       sn.querySelectorAll('[data-jump]').forEach(b => { const t = document.getElementById(b.dataset.jump); if (t && t.getBoundingClientRect().top < 200) cur = b.dataset.jump; });
       sn.querySelectorAll('[data-jump]').forEach(b => b.classList.toggle('active', b.dataset.jump === (cur || 'cs-overview')));
-    }
-    const r = document.querySelector('.rail');
-    if (r) {
-      r.classList.toggle('show', !home.hidden && scrollY > innerHeight * 0.6);
-      r.querySelectorAll('a').forEach(a => a.classList.toggle('active', a.dataset.rail === (current || 'top')));
     }
   };
   addEventListener('scroll', onScroll, { passive: true });
@@ -182,15 +172,12 @@
     grid.querySelectorAll('.proj').forEach(c => { c.hidden = k !== 'all' && !c.dataset.groups.split(' ').includes(k); c.classList.add('in'); });
   });
 
-  // ---------- Section hand-offs + side rail ----------
-  const ORDER = [['projects', 'Projects'], ['builds', 'Builds'], ['capabilities', 'Capabilities'], ['about', 'About'], ['vision', 'Vision'], ['contact', 'Contact']];
-  ORDER.forEach(([id], i) => {
-    const next = ORDER[i + 1]; if (!next) return;
-    document.getElementById(id).insertAdjacentHTML('beforeend', `<a class="next-up reveal" href="#${next[0]}"><span class="mono">Up next</span><strong>${next[1]}</strong><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg></a>`);
+  // ---------- Pages ----------
+  const PAGES = [['projects', 'Projects', 'projects'], ['builds', 'Builds', 'builds'], ['capabilities', 'Capabilities', 'capabilities'], ['about', 'About', 'vision'], ['contact', 'Contact', 'contact']];
+  PAGES.forEach(([id], i) => {
+    const next = PAGES[i + 1]; if (!next) return;
+    document.getElementById(PAGES[i][2]).insertAdjacentHTML('beforeend', `<a class="next-up reveal" href="#${next[0]}"><span class="mono">Next page</span><strong>${next[1]}</strong><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>`);
   });
-  document.body.insertAdjacentHTML('beforeend', `<nav class="rail" aria-label="Page sections"><a href="#top" data-rail="top"><i></i><span>Top</span></a>${ORDER.map(([id, l]) => `<a href="#${id}" data-rail="${id}"><i></i><span>${l}</span></a>`).join('')}</nav>`);
-  const rail = document.querySelector('.rail');
-  rail.querySelector('[data-rail="top"]').addEventListener('click', e => { e.preventDefault(); history.pushState('', '', location.pathname); scrollTo({ top: 0, behavior: 'smooth' }); });
 
   // ---------- Builds ----------
   const builds = window.BUILDS || [];
@@ -216,6 +203,33 @@
         </div>
       </a>
     </article>`).join('');
+
+  // ---------- Home: featured + explore tiles ----------
+  const fp = projects.find(p => p.id === FEATURED);
+  if (fp) document.getElementById('homeFeatured').innerHTML = `
+      <a class="home-feature card reveal" href="#/project/${fp.id}">
+        <div class="hf-img"><img src="assets/covers/${fp.id}.jpg" alt="${esc(fp.title)}" loading="lazy" decoding="async" /></div>
+        <div class="hf-body">
+          <span class="mono">Featured project</span>
+          <strong>${esc(fp.title)}</strong>
+          <p>${esc(fp.summary)}</p>
+          <span class="un-go">Read the case study ${arrow}</span>
+        </div>
+      </a>`;
+  const TILES = [
+    ['projects', 'Projects', `${projects.length} case studies with models, reports and live versions`, 'P'],
+    ['builds', 'Builds', `${builds.length} experiments with Python, AI tools and low-code`, 'B'],
+    ['capabilities', 'Capabilities', 'Finance, technical and soft skills', 'C'],
+    ['about', 'About', 'Background, what I am learning, and my goal and vision', 'A'],
+    ['contact', 'Contact', 'Email, LinkedIn and GitHub', '@'],
+  ];
+  document.getElementById('exploreGrid').innerHTML = TILES.map(([id, t, d, ic]) => `
+      <a class="explore-tile card reveal" href="#${id}">
+        <span class="et-ico mono" aria-hidden="true">${ic}</span>
+        <strong>${t}</strong>
+        <span>${esc(d)}</span>
+        <b aria-hidden="true">${arrow}</b>
+      </a>`).join('');
 
   const renderBuild = idx => {
     const b = builds[idx];
@@ -371,7 +385,15 @@
 
   // ---------- Router ----------
   const baseTitle = document.title;
-  let lastWasCase = false;
+  const pageSections = [...home.querySelectorAll('[data-page]')];
+  const PAGE_IDS = PAGES.map(p => p[0]);
+  const showPage = pg => {
+    pageSections.forEach(sec => { sec.hidden = sec.dataset.page !== pg; });
+    currentPage = pg;
+    home.dataset.page = pg;
+    const label = (PAGES.find(p => p[0] === pg) || [])[1];
+    document.title = label ? `${label} | Harshavardhaan` : baseTitle;
+  };
   const route = () => {
     const m = location.hash.match(/^#\/project\/([\w-]+)/);
     const mb = location.hash.match(/^#\/build\/([\w-]+)/);
@@ -382,21 +404,27 @@
       home.hidden = true;
       caseView.hidden = false;
       scrollTo({ top: 0, behavior: 'instant' });
-      lastWasCase = true;
     } else {
       caseView.hidden = true;
       caseView.innerHTML = '';
       home.hidden = false;
-      document.title = baseTitle;
-      const target = location.hash.length > 1 && document.getElementById(location.hash.slice(1));
-      if (lastWasCase || target) {
-        requestAnimationFrame(() => {
-          if (target) target.scrollIntoView({ behavior: lastWasCase ? 'instant' : 'smooth' });
-          else scrollTo({ top: 0, behavior: 'instant' });
-          lastWasCase = false;
-        });
+      const id = location.hash.slice(1);
+      let pg = 'home', target = null;
+      if (PAGE_IDS.includes(id)) pg = id;
+      else if (id) {
+        target = document.getElementById(id);
+        const holder = target && target.closest('[data-page]');
+        if (holder) pg = holder.dataset.page; else target = null;
       }
+      showPage(pg);
+      home.classList.remove('page-in'); void home.offsetWidth; home.classList.add('page-in');
+      requestAnimationFrame(() => {
+        if (target && pg !== 'home' && target.id === pg) target = null;
+        if (target) target.scrollIntoView({ behavior: 'instant' });
+        else scrollTo({ top: 0, behavior: 'instant' });
+      });
     }
+    closeMenu();
     onScroll();
   };
   addEventListener('hashchange', route);

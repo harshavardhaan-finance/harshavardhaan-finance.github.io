@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=10" />
+  <link rel="stylesheet" href="styles.css?v=11" />
   <script>
     try { const t = localStorage.getItem('theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
   </script>
@@ -43,7 +43,7 @@
       <a href="#builds">Builds</a>
       <a href="#capabilities">Capabilities</a>
       <a href="#about">About</a>
-      <a href="#vision">Vision</a>
+      <a href="#contact">Contact</a>
       <a href="#" data-resume>Resume</a>
     </nav>
     <div class="nav-actions">
@@ -60,7 +60,7 @@
 
   <!-- ================= HOME ================= -->
   <main id="home">
-    <section class="hero">
+    <section class="hero" data-page="home">
       <div class="hero-copy">
         <div class="pill reveal"><span class="dot"></span> CMA Qualified · June 2026</div>
         <h1 class="hero-title reveal">
@@ -85,7 +85,7 @@
           <a href="#" class="btn btn-ghost" data-resume>View Resume</a>
           <a href="mailto:harshavardhaan.c21@gmail.com" class="btn btn-ghost">Email Me</a>
         </div>
-        <a class="scroll-cue reveal" href="#projects" aria-label="Scroll to projects">
+        <a class="scroll-cue reveal" href="#explore" aria-label="Scroll to explore">
           Scroll to explore
           <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
         </a>
@@ -123,7 +123,7 @@
       </aside>
     </section>
 
-    <div class="ticker" aria-hidden="true">
+    <div class="ticker" aria-hidden="true" data-page="home">
       <div class="ticker-track">
         <span>Three-Statement Model</span><b>◆</b><span>DCF Valuation</span><b>◆</b><span>13-Week Cash Flow</span><b>◆</b>
         <span>Variance Analysis</span><b>◆</b><span>Commodity Hedging</span><b>◆</b><span>NPV · IRR · DSCR</span><b>◆</b>
@@ -134,8 +134,18 @@
       </div>
     </div>
 
+    <!-- HOME: EXPLORE -->
+    <section class="section" id="explore" data-page="home">
+      <div class="section-head reveal">
+        <span class="eyebrow mono">Explore</span>
+        <h2>Start here</h2>
+      </div>
+      <div id="homeFeatured"></div>
+      <div class="explore-grid" id="exploreGrid"></div>
+    </section>
+
     <!-- PROJECTS -->
-    <section class="section" id="projects">
+    <section class="section" id="projects" data-page="projects">
       <div class="section-head reveal">
         <span class="eyebrow mono">Selected Work</span>
         <h2>All Projects</h2>
@@ -145,7 +155,7 @@
     </section>
 
     <!-- BUILDS -->
-    <section class="section" id="builds">
+    <section class="section" id="builds" data-page="builds">
       <div class="section-head reveal">
         <span class="eyebrow mono">Beyond Finance</span>
         <h2>Builds</h2>
@@ -155,7 +165,7 @@
     </section>
 
     <!-- CAPABILITIES -->
-    <section class="section" id="capabilities">
+    <section class="section" id="capabilities" data-page="capabilities">
       <div class="section-head reveal">
         <span class="eyebrow mono">Skills &amp; Capabilities</span>
         <h2>What I Work With</h2>
@@ -192,7 +202,7 @@
     </section>
 
     <!-- ABOUT -->
-    <section class="section" id="about">
+    <section class="section" id="about" data-page="about">
       <div class="about-grid">
         <div class="about-side reveal">
           <span class="eyebrow mono">About Me</span>
@@ -242,7 +252,7 @@
     </section>
 
     <!-- VISION -->
-    <section class="section" id="vision">
+    <section class="section" id="vision" data-page="about">
       <div class="section-head reveal">
         <span class="eyebrow mono">Goal &amp; Vision</span>
         <h2>Where I'm headed</h2>
@@ -281,7 +291,7 @@
     </section>
 
     <!-- CONTACT -->
-    <section class="section contact" id="contact">
+    <section class="section contact" id="contact" data-page="contact">
       <div class="section-head center reveal">
         <span class="eyebrow mono">Contact</span>
         <h2>Let's <em class="grad">Connect</em></h2>
@@ -340,8 +350,8 @@
     </div>
   </div>
 
-  <script src="projects.js?v=10"></script>
-  <script src="builds.js?v=10"></script>
-  <script src="script.js?v=10" defer></script>
+  <script src="projects.js?v=11"></script>
+  <script src="builds.js?v=11"></script>
+  <script src="script.js?v=11" defer></script>
 </body>
 </html>
