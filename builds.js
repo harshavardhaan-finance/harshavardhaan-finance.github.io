@@ -3,6 +3,7 @@
 window.BUILDS = [
   {
     id: 'debtor-intelligence',
+    access: 'Opens in your browser, no sign-in needed. Use the built-in demo data, or upload your own ledger export; files are processed in the browser and never uploaded.',
     title: 'Debtor Intelligence',
     kicker: 'Credit risk · Receivables analytics',
     cover: 'debtor-intelligence.jpg',
@@ -33,6 +34,7 @@ window.BUILDS = [
   },
   {
     id: 'gstr-2b-reconciliation',
+    access: 'Opens in your browser, no sign-in needed. Click "Try it with sample files" to see a full reconciliation, or upload your own GSTR-2B and purchase register; files stay in the browser.',
     title: 'GSTR-2B Reconciliation',
     kicker: 'Indirect tax · Automation',
     cover: 'gstr-2b-reconciliation.jpg',
@@ -63,6 +65,7 @@ window.BUILDS = [
   },
   {
     id: 'finsta-quickloans',
+    access: 'Hosted on Hugging Face Spaces and opens in your browser. If the Space has been idle it can take a few seconds to wake up.',
     title: 'Finsta QuickLoans',
     kicker: 'Machine learning · Credit risk',
     cover: 'finsta-quickloans.jpg',
@@ -90,6 +93,7 @@ window.BUILDS = [
   },
   {
     id: 'deep-equity-research',
+    access: 'Opens as a custom GPT in ChatGPT. You need a ChatGPT account to use it.',
     title: 'Deep Equity Research',
     kicker: 'Custom GPT · Equity research',
     cover: 'deep-equity-research.jpg',
@@ -115,6 +119,7 @@ window.BUILDS = [
   },
   {
     id: 'dostpay',
+    access: 'Opens in your browser on Google AI Studio.',
     title: 'DostPay (EquiSplit)',
     kicker: 'Weekend build · Expense splitting',
     cover: 'dostpay.jpg',
