@@ -96,38 +96,22 @@
   }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
   const observeReveals = scope => scope.querySelectorAll('.reveal:not(.in)').forEach(el => io.observe(el));
 
-  // ---------- Hero sparkline ----------
-  const line = document.getElementById('line');
-  const area = document.getElementById('area');
-  const dotEnd = document.getElementById('dotEnd');
-  const W = 400, H = 110, N = 14;
-  const drawChart = () => {
-    let v = 30, pts = [];
-    for (let i = 0; i < N; i++) {
-      v += 4 + Math.sin(i * 1.2 + Math.random() * 2) * 6 + Math.random() * 3;
-      pts.push([(i / (N - 1)) * W, H - 8 - Math.min(v, 100) / 100 * (H - 16)]);
+  // ---------- Hero candlesticks ----------
+  const candleBox = document.getElementById('candles');
+  const drawCandles = () => {
+    if (!candleBox) return;
+    let base = 8 + Math.random() * 8, out = '';
+    for (let i = 0; i < 26; i++) {
+      const up = Math.random() > 0.32;
+      const h = 12 + Math.random() * 26;
+      const b = Math.min(70, Math.max(4, base));
+      base += up ? 3 + Math.random() * 1.6 : -(1.6 + Math.random() * 2.2);
+      out += `<span class="cd ${up ? 'up' : 'dn'}" style="--b:${b.toFixed(1)}%;--h:${h.toFixed(1)}%;--d:${(i * 0.045).toFixed(2)}s"><i></i></span>`;
     }
-    const d = pts.reduce((acc, p, i, a) => {
-      if (!i) return `M${p[0]},${p[1]}`;
-      const cx = (a[i - 1][0] + p[0]) / 2;
-      return `${acc} C${cx},${a[i - 1][1]} ${cx},${p[1]} ${p[0]},${p[1]}`;
-    }, '');
-    line.setAttribute('d', d);
-    area.setAttribute('d', `${d} L${W},${H} L0,${H} Z`);
-    dotEnd.setAttribute('cx', pts[N - 1][0]);
-    dotEnd.setAttribute('cy', pts[N - 1][1]);
-    if (!reduceMotion) {
-      const len = line.getTotalLength();
-      line.style.transition = 'none';
-      line.style.strokeDasharray = len;
-      line.style.strokeDashoffset = len;
-      line.getBoundingClientRect();
-      line.style.transition = 'stroke-dashoffset 1.8s cubic-bezier(.2,.8,.2,1)';
-      line.style.strokeDashoffset = 0;
-    }
+    candleBox.innerHTML = out;
   };
-  drawChart();
-  if (!reduceMotion) setInterval(drawChart, 6000);
+  drawCandles();
+  if (!reduceMotion) setInterval(drawCandles, 7000);
 
   // ---------- Project cards ----------
   const grid = document.getElementById('projectGrid');
@@ -138,30 +122,38 @@
     'cash-flow-13-week': ['treasury'], 'sql-working-capital': ['treasury', 'analytics'],
     'power-bi-dashboard': ['analytics'], 'portfolio-optimization': ['analytics'],
   };
+  function fpCard(cls) {
+    const fp = projects.find(p => p.id === FEATURED);
+    if (!fp) return '';
+    if (cls === undefined) return fp;
+    return `
+      <a class="home-feature card reveal ${cls}" href="#/project/${fp.id}">
+        <div class="hf-img"><img src="assets/covers/${fp.id}.jpg" alt="${esc(fp.title)}" loading="lazy" decoding="async" /></div>
+        <div class="hf-body">
+          <span class="mono">Featured project</span>
+          <strong>${esc(fp.title)}</strong>
+          ${fp.highlight ? `<span class="hf-val"><small class="mono">${esc(fp.highlight.label)}</small><b>${esc(fp.highlight.value)}</b></span>` : ''}
+          <p>${esc(fp.summary)}</p>
+          <span class="un-go">Read the case study ${arrow}</span>
+        </div>
+      </a>`;
+  }
   const FILTERS = [['all', 'All projects'], ['valuation', 'Modelling & valuation'], ['fpa', 'FP&A & costing'], ['treasury', 'Treasury & working capital'], ['analytics', 'Analytics & BI']];
   grid.insertAdjacentHTML('beforebegin', `<div class="proj-filters reveal" role="toolbar" aria-label="Filter projects">${FILTERS.map(([k, l], i) =>
     `<button class="filter${i ? '' : ' active'}" type="button" data-pf="${k}" aria-pressed="${!i}">${esc(l)} <span class="mono">${k === 'all' ? projects.length : projects.filter(p => (GROUPS[p.id] || []).includes(k)).length}</span></button>`).join('')}</div>`);
-  grid.innerHTML = projects.map((p, i) => `
-    <article class="proj card reveal${p.id === FEATURED ? ' featured' : ''}" data-groups="${(GROUPS[p.id] || []).join(' ')}">
-      <a class="proj-main" href="#/project/${p.id}" aria-label="Open case study: ${esc(p.title)}">
-        <div class="proj-thumb">
-          <img src="assets/covers/${p.id}.jpg" alt="${esc(p.title)}" loading="lazy" decoding="async" />
-          <span class="proj-peek" aria-hidden="true">Read case study ${arrow}</span>
-          <span class="proj-count">${p.images.length} image${p.images.length > 1 ? 's' : ''}${p.report ? ' · PDF' : ''}</span>
-        </div>
-        <div class="proj-body">
-          <span class="proj-kicker">${esc(p.kicker)}</span>
-          <h3>${esc(p.title)}</h3>
-          <p>${esc(p.summary)}</p>
-          <span class="proj-link">View full case study ${arrow}</span>
-        </div>
+  const spark = i => { let y = 20, pts = []; for (let x = 0; x <= 96; x += 8) { y = Math.max(3, Math.min(25, y + Math.sin(i * 3.1 + x * 0.41) * 6 - 1.3)); pts.push(x + ',' + y.toFixed(1)); } return pts.join(' '); };
+  if (fpCard()) document.querySelector('.proj-filters').insertAdjacentHTML('beforebegin', fpCard('proj-feature'));
+  grid.classList.add('watchlist');
+  grid.innerHTML = `<div class="wl-head mono" aria-hidden="true"><span>#</span><span>Project</span><span>Headline</span><span>Trend</span><span>Live model</span></div>` + projects.map((p, i) => `
+    <article class="proj wl-row reveal${p.id === FEATURED ? ' featured' : ''}" data-groups="${(GROUPS[p.id] || []).join(' ')}">
+      <a class="wl-main" href="#/project/${p.id}" aria-label="Open case study: ${esc(p.title)}">
+        <span class="wl-n mono">${pad(i + 1)}</span>
+        <span class="wl-thumb"><img src="assets/covers/${p.id}.jpg" alt="" loading="lazy" decoding="async" /></span>
+        <span class="wl-title"><small class="mono">${esc(p.kicker)}</small><strong>${esc(p.title)}</strong><span class="wl-sum">${esc(p.summary)}</span></span>
+        <span class="wl-val mono">${p.highlight ? `<b>${esc(p.highlight.value)}</b><small>${esc(p.highlight.label)}</small>` : ''}</span>
+        <svg class="wl-spark" viewBox="0 0 96 28" aria-hidden="true"><polyline points="${spark(i)}" /></svg>
       </a>
-      ${p.artifact ? `
-      <a class="proj-live" href="${p.artifact.url}" target="_blank" rel="noopener noreferrer" aria-label="Open the interactive model: ${esc(p.artifact.title)}">
-        <span class="live-ico" aria-hidden="true">${playIcon}</span>
-        <span><small class="mono"><i></i>Live model</small><strong>${esc(p.artifact.title)}</strong></span>
-        <b aria-hidden="true">↗</b>
-      </a>` : ''}
+      ${p.artifact ? `<a class="wl-live mono" href="${p.artifact.url}" target="_blank" rel="noopener noreferrer" aria-label="Open the interactive model: ${esc(p.artifact.title)}"><i></i><span>${esc(p.artifact.title)}</span> ↗</a>` : '<span></span>'}
     </article>`).join('');
 
   document.querySelector('.proj-filters').addEventListener('click', e => {
@@ -169,7 +161,7 @@
     const k = b.dataset.pf;
     document.querySelectorAll('[data-pf]').forEach(x => { const on = x === b; x.classList.toggle('active', on); x.setAttribute('aria-pressed', String(on)); });
     grid.classList.toggle('filtered', k !== 'all');
-    grid.querySelectorAll('.proj').forEach(c => { c.hidden = k !== 'all' && !c.dataset.groups.split(' ').includes(k); c.classList.add('in'); });
+    grid.querySelectorAll('.wl-row').forEach(c => { c.hidden = k !== 'all' && !c.dataset.groups.split(' ').includes(k); c.classList.add('in'); });
   });
 
   // ---------- Pages ----------
@@ -205,17 +197,7 @@
     </article>`).join('');
 
   // ---------- Home: featured + explore tiles ----------
-  const fp = projects.find(p => p.id === FEATURED);
-  if (fp) document.getElementById('homeFeatured').innerHTML = `
-      <a class="home-feature card reveal" href="#/project/${fp.id}">
-        <div class="hf-img"><img src="assets/covers/${fp.id}.jpg" alt="${esc(fp.title)}" loading="lazy" decoding="async" /></div>
-        <div class="hf-body">
-          <span class="mono">Featured project</span>
-          <strong>${esc(fp.title)}</strong>
-          <p>${esc(fp.summary)}</p>
-          <span class="un-go">Read the case study ${arrow}</span>
-        </div>
-      </a>`;
+  if (fpCard()) document.getElementById('homeFeatured').innerHTML = fpCard('');
   const TILES = [
     ['projects', 'Projects', `${projects.length} case studies with models, reports and live versions`, 'P'],
     ['builds', 'Builds', `${builds.length} experiments with Python, AI tools and low-code`, 'B'],
