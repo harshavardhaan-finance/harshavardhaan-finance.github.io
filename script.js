@@ -2,19 +2,22 @@
   const root = document.documentElement;
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const projects = window.PROJECTS || [];
+  const builds = window.BUILDS || [];
   const home = document.getElementById('home');
   const caseView = document.getElementById('caseView');
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-  const pad = n => String(n).padStart(2, '0');
+  const commas = s => esc(String(s).split(' · ').join(', '));
   const IMG = 'assets/images/';
   const REPORTS = 'assets/reports/';
   const PREVIEWS = 'assets/previews/';
-  const arrow = '<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
-  const playIcon = '<svg viewBox="0 0 24 24"><path d="M7 17L17 7M8 7h9v9"/></svg>';
+  const BUILD_IMG = 'assets/builds/';
+  const ext = '<svg class="ext" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 16L16 8M9 8h7v7"/></svg>';
+  const thumbOf = p => p.artifact && p.artifact.preview ? PREVIEWS + p.artifact.preview : 'assets/covers/' + p.id + '.jpg';
 
   // ---------- Theme ----------
   document.getElementById('themeToggle').addEventListener('click', () => {
-    const next = root.dataset.theme === 'light' ? 'dark' : 'light';
+    const dark = root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+    const next = dark ? 'light' : 'dark';
     root.dataset.theme = next;
     try { localStorage.setItem('theme', next); } catch (e) {}
   });
@@ -29,13 +32,15 @@
   });
   navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
 
-  // ---------- Scroll progress + active nav ----------
-  const links = [...navLinks.querySelectorAll('a[href^="#"]:not([data-resume])')];
+  // ---------- Active nav + case subnav ----------
+  const links = [...navLinks.querySelectorAll('a[href^="#"]')];
   let currentPage = 'home';
   const onScroll = () => {
-    const max = document.documentElement.scrollHeight - innerHeight;
-    root.style.setProperty('--scroll', max > 0 ? (scrollY / max).toFixed(4) : 0);
-    links.forEach(l => l.classList.toggle('active', !home.hidden && l.getAttribute('href') === '#' + currentPage));
+    links.forEach(l => {
+      const on = !home.hidden && l.getAttribute('href') === '#' + currentPage;
+      l.classList.toggle('active', on);
+      if (on) l.setAttribute('aria-current', 'page'); else l.removeAttribute('aria-current');
+    });
     const sn = caseView.hidden ? null : caseView.querySelector('.case-subnav');
     if (sn) {
       let cur = '';
@@ -45,91 +50,7 @@
   };
   addEventListener('scroll', onScroll, { passive: true });
 
-  // ---------- Pointer effects ----------
-  if (matchMedia('(pointer: fine)').matches) {
-    addEventListener('pointermove', e => {
-      root.style.setProperty('--mx', e.clientX + 'px');
-      root.style.setProperty('--my', e.clientY + 'px');
-      const card = e.target.closest && e.target.closest('.card');
-      if (card) {
-        const r = card.getBoundingClientRect();
-        card.style.setProperty('--cx', e.clientX - r.left + 'px');
-        card.style.setProperty('--cy', e.clientY - r.top + 'px');
-      }
-    }, { passive: true });
-
-    const tilt = document.querySelector('.tilt');
-    if (tilt && !reduceMotion) {
-      const host = tilt.parentElement;
-      host.addEventListener('pointermove', e => {
-        const r = host.getBoundingClientRect();
-        const x = (e.clientX - r.left) / r.width - 0.5;
-        const y = (e.clientY - r.top) / r.height - 0.5;
-        tilt.style.transform = `rotateY(${x * 8}deg) rotateX(${-y * 8}deg)`;
-      });
-      host.addEventListener('pointerleave', () => { tilt.style.transform = ''; });
-    }
-  }
-
-  // ---------- Reveal on scroll + counters ----------
-  const countUp = el => {
-    const to = +el.dataset.to;
-    if (reduceMotion) { el.textContent = to; return; }
-    const start = performance.now();
-    const step = t => {
-      const p = Math.min((t - start) / 1200, 1);
-      el.textContent = Math.round(to * (1 - Math.pow(1 - p, 3)));
-      if (p < 1) requestAnimationFrame(step);
-    };
-    requestAnimationFrame(step);
-  };
-  const io = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      const el = entry.target;
-      const siblings = [...el.parentElement.children].filter(c => c.classList.contains('reveal'));
-      el.style.transitionDelay = Math.min(Math.max(0, siblings.indexOf(el)) * 60, 360) + 'ms';
-      el.classList.add('in');
-      el.querySelectorAll('.count').forEach(countUp);
-      io.unobserve(el);
-    });
-  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-  const observeReveals = scope => scope.querySelectorAll('.reveal:not(.in)').forEach(el => io.observe(el));
-
-  // ---------- Hero sparkline ----------
-  const line = document.getElementById('line');
-  const area = document.getElementById('area');
-  const dotEnd = document.getElementById('dotEnd');
-  const W = 400, H = 110, N = 14;
-  const drawChart = () => {
-    let v = 30, pts = [];
-    for (let i = 0; i < N; i++) {
-      v += 4 + Math.sin(i * 1.2 + Math.random() * 2) * 6 + Math.random() * 3;
-      pts.push([(i / (N - 1)) * W, H - 8 - Math.min(v, 100) / 100 * (H - 16)]);
-    }
-    const d = pts.reduce((acc, p, i, a) => {
-      if (!i) return `M${p[0]},${p[1]}`;
-      const cx = (a[i - 1][0] + p[0]) / 2;
-      return `${acc} C${cx},${a[i - 1][1]} ${cx},${p[1]} ${p[0]},${p[1]}`;
-    }, '');
-    line.setAttribute('d', d);
-    area.setAttribute('d', `${d} L${W},${H} L0,${H} Z`);
-    dotEnd.setAttribute('cx', pts[N - 1][0]);
-    dotEnd.setAttribute('cy', pts[N - 1][1]);
-    if (!reduceMotion) {
-      const len = line.getTotalLength();
-      line.style.transition = 'none';
-      line.style.strokeDasharray = len;
-      line.style.strokeDashoffset = len;
-      line.getBoundingClientRect();
-      line.style.transition = 'stroke-dashoffset 1.8s cubic-bezier(.2,.8,.2,1)';
-      line.style.strokeDashoffset = 0;
-    }
-  };
-  drawChart();
-  if (!reduceMotion) setInterval(drawChart, 6000);
-
-  // ---------- Project cards ----------
+  // ---------- Project list ----------
   const grid = document.getElementById('projectGrid');
   const FEATURED = 'startup-valuation';
   const GROUPS = {
@@ -138,249 +59,205 @@
     'cash-flow-13-week': ['treasury'], 'sql-working-capital': ['treasury', 'analytics'],
     'power-bi-dashboard': ['analytics'], 'portfolio-optimization': ['analytics'],
   };
-  const FILTERS = [['all', 'All projects'], ['valuation', 'Modelling & valuation'], ['fpa', 'FP&A & costing'], ['treasury', 'Treasury & working capital'], ['analytics', 'Analytics & BI']];
-  grid.insertAdjacentHTML('beforebegin', `<div class="proj-filters reveal" role="toolbar" aria-label="Filter projects">${FILTERS.map(([k, l], i) =>
-    `<button class="filter${i ? '' : ' active'}" type="button" data-pf="${k}" aria-pressed="${!i}">${esc(l)} <span class="mono">${k === 'all' ? projects.length : projects.filter(p => (GROUPS[p.id] || []).includes(k)).length}</span></button>`).join('')}</div>`);
-  grid.innerHTML = projects.map((p, i) => `
-    <article class="proj card reveal${p.id === FEATURED ? ' featured' : ''}" data-groups="${(GROUPS[p.id] || []).join(' ')}">
-      <a class="proj-main" href="#/project/${p.id}" aria-label="Open case study: ${esc(p.title)}">
-        <div class="proj-thumb">
-          <img src="assets/covers/${p.id}.jpg" alt="${esc(p.title)}" loading="lazy" decoding="async" />
-          <span class="proj-peek" aria-hidden="true">Read case study ${arrow}</span>
-          <span class="proj-count">${p.images.length} image${p.images.length > 1 ? 's' : ''}${p.report ? ' · PDF' : ''}</span>
-        </div>
-        <div class="proj-body">
-          <span class="proj-kicker">${esc(p.kicker)}</span>
-          <h3>${esc(p.title)}</h3>
-          <p>${esc(p.summary)}</p>
-          <span class="proj-link">View full case study ${arrow}</span>
-        </div>
+  const FILTERS = [['all', 'All'], ['fpa', 'FP&A and costing'], ['valuation', 'Modelling and valuation'], ['treasury', 'Cash and working capital'], ['analytics', 'Analytics and BI']];
+  const ordered = [...projects].sort((a, b) => (b.id === FEATURED) - (a.id === FEATURED));
+
+  const projCard = (p, featured) => `
+    <article class="proj${featured ? ' featured' : ''}" data-groups="${(GROUPS[p.id] || []).join(' ')}">
+      <a class="proj-thumb" href="#/project/${p.id}" tabindex="-1" aria-hidden="true">
+        <img src="${thumbOf(p)}" alt="" loading="lazy" decoding="async" />
       </a>
-      ${p.artifact ? `
-      <a class="proj-live" href="${p.artifact.url}" target="_blank" rel="noopener noreferrer" aria-label="Open the interactive model: ${esc(p.artifact.title)}">
-        <span class="live-ico" aria-hidden="true">${playIcon}</span>
-        <span><small class="mono"><i></i>Live model</small><strong>${esc(p.artifact.title)}</strong></span>
-        <b aria-hidden="true">↗</b>
-      </a>` : ''}
-    </article>`).join('');
+      <div class="proj-body">
+        <p class="proj-kicker">${commas(p.kicker)}</p>
+        <h3><a href="#/project/${p.id}">${esc(p.title)}</a></h3>
+        <p class="proj-summary">${esc(p.summary)}</p>
+        ${p.highlight ? `<p class="proj-figure"><span class="figure">${esc(p.highlight.value)}</span> ${esc(p.highlight.label.split(' · ').join(', '))}</p>` : ''}
+        <div class="proj-links">
+          <a href="#/project/${p.id}">Read the case study</a>
+          ${p.artifact ? `<a href="${p.artifact.url}" target="_blank" rel="noopener noreferrer">Open the live model${ext}</a>` : ''}
+        </div>
+      </div>
+    </article>`;
+
+  grid.insertAdjacentHTML('beforebegin', `<div class="proj-filters" role="toolbar" aria-label="Filter case studies">${FILTERS.map(([k, l], i) =>
+    `<button class="filter${i ? '' : ' active'}" type="button" data-pf="${k}" aria-pressed="${!i}">${esc(l)}<span class="count">${k === 'all' ? projects.length : projects.filter(p => (GROUPS[p.id] || []).includes(k)).length}</span></button>`).join('')}</div>`);
+  grid.innerHTML = ordered.map(p => projCard(p, p.id === FEATURED)).join('');
 
   document.querySelector('.proj-filters').addEventListener('click', e => {
     const b = e.target.closest('[data-pf]'); if (!b) return;
     const k = b.dataset.pf;
     document.querySelectorAll('[data-pf]').forEach(x => { const on = x === b; x.classList.toggle('active', on); x.setAttribute('aria-pressed', String(on)); });
     grid.classList.toggle('filtered', k !== 'all');
-    grid.querySelectorAll('.proj').forEach(c => { c.hidden = k !== 'all' && !c.dataset.groups.split(' ').includes(k); c.classList.add('in'); });
+    grid.querySelectorAll('.proj').forEach(c => { c.hidden = k !== 'all' && !c.dataset.groups.split(' ').includes(k); });
   });
 
-  // ---------- Pages ----------
-  const PAGES = [['projects', 'Projects', 'projects'], ['builds', 'Builds', 'builds'], ['capabilities', 'Capabilities', 'capabilities'], ['about', 'About', 'vision'], ['contact', 'Contact', 'contact']];
+  // ---------- Next page links ----------
+  const PAGES = [['projects', 'Case studies', 'projects'], ['builds', 'Builds', 'builds'], ['capabilities', 'Skills', 'capabilities'], ['about', 'About', 'vision'], ['contact', 'Contact', 'contact']];
   PAGES.forEach(([id], i) => {
     const next = PAGES[i + 1]; if (!next) return;
-    document.getElementById(PAGES[i][2]).insertAdjacentHTML('beforeend', `<a class="next-up reveal" href="#${next[0]}"><span class="mono">Next page</span><strong>${next[1]}</strong><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>`);
+    document.getElementById(PAGES[i][2]).insertAdjacentHTML('beforeend', `<a class="next-up" href="#${next[0]}"><span>Next</span><strong>${next[1]}</strong></a>`);
   });
 
   // ---------- Builds ----------
-  const builds = window.BUILDS || [];
   const hostOf = u => { try { return new URL(u).hostname.replace(/^www\./, ''); } catch (e) { return ''; } };
-  const BUILD_IMG = 'assets/builds/';
-  document.getElementById('buildsGrid').innerHTML = builds.map((b, i) => `
-    <article class="build card reveal">
-      <a class="build-main" href="#/build/${b.id}" aria-label="Explore build: ${esc(b.title)}">
-        <div class="build-cover">
-          <img src="${BUILD_IMG}${b.cover}" alt="${esc(b.title)}" loading="lazy" decoding="async" />
-          ${b.illustrative ? '<span class="cover-tag mono">Illustration</span>' : '<span class="cover-tag mono live"><i></i>Live</span>'}
-          <span class="proj-peek" aria-hidden="true">Explore build ${arrow}</span>
-        </div>
-        <div class="build-body">
-          <span class="proj-kicker">Build ${pad(i + 1)} · ${esc(b.kicker)}</span>
-          <h3>${esc(b.title)}</h3>
-          <p>${esc(b.summary)}</p>
-          <div class="build-tools">${b.tools.map(t => `<span>${esc(t)}</span>`).join('')}</div>
-        </div>
-        <div class="build-actions">
-          <span class="build-more">Explore build ${arrow}</span>
-          <span class="build-host mono">${esc(hostOf(b.url))}</span>
-        </div>
+  document.getElementById('buildsGrid').innerHTML = builds.map(b => `
+    <article class="build">
+      <a class="proj-thumb" href="#/build/${b.id}" tabindex="-1" aria-hidden="true">
+        <img src="${BUILD_IMG}${b.cover}" alt="" loading="lazy" decoding="async" />
+        ${b.illustrative ? '<span class="cover-tag">Illustration</span>' : ''}
       </a>
+      <div class="proj-body">
+        <p class="proj-kicker">${commas(b.kicker)}</p>
+        <h3><a href="#/build/${b.id}">${esc(b.title)}</a></h3>
+        <p class="proj-summary">${esc(b.summary)}</p>
+        <p class="build-tools">${b.tools.map(esc).join(', ')}</p>
+        <div class="proj-links">
+          <a href="#/build/${b.id}">How it works</a>
+          <a href="${b.url}" target="_blank" rel="noopener noreferrer">${esc(b.cta)}${ext}</a>
+        </div>
+      </div>
     </article>`).join('');
 
-  // ---------- Home: featured + explore tiles ----------
+  // ---------- Home: featured + page list ----------
   const fp = projects.find(p => p.id === FEATURED);
-  if (fp) document.getElementById('homeFeatured').innerHTML = `
-      <a class="home-feature card reveal" href="#/project/${fp.id}">
-        <div class="hf-img"><img src="assets/covers/${fp.id}.jpg" alt="${esc(fp.title)}" loading="lazy" decoding="async" /></div>
-        <div class="hf-body">
-          <span class="mono">Featured project</span>
-          <strong>${esc(fp.title)}</strong>
-          <p>${esc(fp.summary)}</p>
-          <span class="un-go">Read the case study ${arrow}</span>
-        </div>
-      </a>`;
+  if (fp) document.getElementById('homeFeatured').innerHTML = projCard(fp, true);
   const TILES = [
-    ['projects', 'Projects', `${projects.length} case studies with models, reports and live versions`, 'P'],
-    ['builds', 'Builds', `${builds.length} experiments with Python, AI tools and low-code`, 'B'],
-    ['capabilities', 'Capabilities', 'Finance, technical and soft skills', 'C'],
-    ['about', 'About', 'Background, what I am learning, and my goal and vision', 'A'],
-    ['contact', 'Contact', 'Email, LinkedIn and GitHub', '@'],
+    ['projects', 'Case studies', `${projects.length} finance projects with models, reports and working versions`],
+    ['builds', 'Builds', `${builds.length} small tools I built while learning Python and AI tools`],
+    ['capabilities', 'Skills', 'Finance, tools, tax and audit'],
+    ['about', 'About', 'Experience, education and where I want to go'],
+    ['contact', 'Contact', 'Email, LinkedIn and GitHub'],
   ];
-  document.getElementById('exploreGrid').innerHTML = TILES.map(([id, t, d, ic]) => `
-      <a class="explore-tile card reveal" href="#${id}">
-        <span class="et-ico mono" aria-hidden="true">${ic}</span>
-        <strong>${t}</strong>
-        <span>${esc(d)}</span>
-        <b aria-hidden="true">${arrow}</b>
-      </a>`).join('');
+  document.getElementById('exploreGrid').innerHTML = `<h3>Also on this site</h3><ul>${TILES.map(([id, t, d]) => `
+      <li><a href="#${id}"><strong>${t}</strong><span>${esc(d)}</span></a></li>`).join('')}</ul>`;
 
+  // ---------- Case study helpers ----------
+  const subnav = items => `<nav class="case-subnav" aria-label="On this page">${items.filter(Boolean).map(([id, l]) => `<button type="button" data-jump="${id}">${esc(l)}</button>`).join('')}</nav>`;
+  const caseNav = (prev, next, attr, word) => `
+      <nav class="case-nav" aria-label="More ${word}s">
+        <button type="button" ${attr}="${prev.id}"><small>Previous ${word}</small><strong>${esc(prev.title)}</strong></button>
+        <button class="next" type="button" ${attr}="${next.id}"><small>Next ${word}</small><strong>${esc(next.title)}</strong></button>
+      </nav>
+      <p class="key-hint">Use the <kbd>←</kbd> <kbd>→</kbd> keys to move between ${word}s and <kbd>Esc</kbd> to go back.</p>`;
+  const backBtn = (to, label) => `<div class="case-top"><button class="back" type="button" data-back="${to}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>${label}</button></div>`;
+
+  // ---------- Build detail ----------
+  let galleryImages = [];
   const renderBuild = idx => {
     const b = builds[idx];
     const prev = builds[(idx - 1 + builds.length) % builds.length];
     const next = builds[(idx + 1) % builds.length];
     galleryImages = [{ src: BUILD_IMG + b.cover, alt: b.illustrative ? `${b.title}, illustration` : `${b.title}, screenshot` }];
     caseView.innerHTML = `
-      <div class="case-top"><button class="back" type="button" data-back="builds"><svg viewBox="0 0 24 24"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>Back to all builds</button><span class="case-count mono">${pad(idx + 1)} / ${pad(builds.length)}</span></div>
-      <div class="case-head" id="cs-overview">
+      ${backBtn('builds', 'All builds')}
+      <header class="case-head" id="cs-overview">
+        <p class="proj-kicker">${commas(b.kicker)}</p>
+        <h1 class="case-title">${esc(b.title)}</h1>
+        <p class="case-overview">${esc(b.overview)}</p>
+        <div class="case-actions"><a class="btn btn-primary" href="${b.url}" target="_blank" rel="noopener noreferrer">${esc(b.cta)}${ext}</a></div>
+      </header>
+      ${subnav([['cs-overview', 'Overview'], ['cs-how', 'How it works'], ['cs-what', 'What it does'], ['cs-access', 'Try it']])}
+      <figure class="exhibit" data-img="0">
+        <img src="${BUILD_IMG}${b.cover}" alt="${esc(galleryImages[0].alt)}" loading="lazy" decoding="async" />
+        <figcaption>${b.illustrative ? 'Illustration of the idea, not a screenshot of the app.' : 'Screenshot of the app. Select to enlarge.'}</figcaption>
+      </figure>
+      <dl class="stats">${b.stats.map(([v, l]) => `<div><dt>${esc(l)}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl>
+      <section class="case-section" id="cs-how">
+        <h2>How it works</h2>
+        <ol class="flow">${b.steps.map(([t, d]) => `<li><strong>${esc(t)}</strong><p>${esc(d)}</p></li>`).join('')}</ol>
+      </section>
+      <section class="case-columns" id="cs-what">
+        <div class="case-block"><h2>What it does</h2><ul>${b.features.map(f => `<li>${esc(f)}</li>`).join('')}</ul></div>
+        <div class="case-block"><h2>What I learned</h2><ul>${b.learned.map(f => `<li>${esc(f)}</li>`).join('')}</ul></div>
+      </section>
+      <aside class="disclosure"><strong>Note.</strong> ${esc(b.note)}</aside>
+      <section class="access" id="cs-access" aria-label="Try it">
         <div>
-          <span class="eyebrow mono">Build ${pad(idx + 1)} · ${esc(b.kicker)}</span>
-          <h1 class="case-title">${esc(b.title)}</h1>
-          <div class="case-tags">${b.tools.map(t => `<span>${esc(t)}</span>`).join('')}</div>
-        </div>
-        <a class="btn btn-primary" href="${b.url}" target="_blank" rel="noopener noreferrer">${esc(b.cta)} ↗</a>
-      </div>
-      ${subnav([['cs-overview', 'Overview'], ['cs-live', 'Preview'], ['cs-how', 'How it works'], ['cs-what', 'What it does'], ['cs-access', 'Access the build']])}
-      <p class="case-overview">${esc(b.overview)}</p>
-      <a class="live-model card" id="cs-live" href="${b.url}" target="_blank" rel="noopener noreferrer" aria-label="${esc(b.cta)}: ${esc(b.title)}">
-        <div class="live-shot">
-          <img src="${BUILD_IMG}${b.cover}" alt="${esc(galleryImages[0].alt)}" loading="lazy" decoding="async" />
-          <span class="live-play">${playIcon} ${esc(b.cta)}</span>
-          ${b.illustrative ? '<span class="cover-tag mono">Illustration</span>' : ''}
-        </div>
-        <div class="live-info">
-          <span class="live-badge mono"><i></i>${b.illustrative ? 'External app' : 'Live build'}</span>
-          <h3>${esc(b.title)}</h3>
-          <p>${esc(b.summary)}</p>
-          <span class="btn btn-primary btn-sm">${esc(b.cta)} ↗</span>
-        </div>
-      </a>
-      <div class="build-stats">${b.stats.map(([v, l]) => `<div class="card"><strong class="mono">${esc(v)}</strong><span>${esc(l)}</span></div>`).join('')}</div>
-      <div class="sub-head" id="cs-how"><h2>How it works</h2></div>
-      <ol class="flow">${b.steps.map(([t, d], i) => `<li class="card"><span class="mono">${pad(i + 1)}</span><strong>${esc(t)}</strong><p>${esc(d)}</p></li>`).join('')}</ol>
-      <div class="case-columns" id="cs-what">
-        <div class="case-block card"><h3>What it does</h3><ul>${b.features.map(f => `<li>${esc(f)}</li>`).join('')}</ul></div>
-        <div class="case-block card outcomes"><h3>What I learned</h3><ul>${b.learned.map(f => `<li>${esc(f)}</li>`).join('')}</ul></div>
-      </div>
-      <div class="disclosure"><strong>Note</strong><br>${esc(b.note)}${b.illustrative ? ' The cover is an illustration of the concept, not a screenshot of the app.' : ''}</div>
-      <section class="access card" id="cs-access" aria-label="Access the build">
-        <div>
-          <span class="eyebrow mono">Access the build</span>
-          <h2>Try ${esc(b.title)} yourself</h2>
+          <h2>Try ${esc(b.title)}</h2>
           <p>${esc(b.access || '')}</p>
-          <code class="access-url mono">${esc(b.url.replace(/^https?:\/\//, ''))}</code>
+          <code class="access-url">${esc(b.url.replace(/^https?:\/\//, ''))}</code>
         </div>
         <div class="access-actions">
-          <a class="btn btn-primary" href="${b.url}" target="_blank" rel="noopener noreferrer">${esc(b.cta)} ↗</a>
-          <button class="btn btn-ghost btn-sm copy-link" type="button" data-url="${b.url}">Copy link</button>
+          <a class="btn btn-primary" href="${b.url}" target="_blank" rel="noopener noreferrer">${esc(b.cta)}${ext}</a>
+          <button class="btn btn-ghost copy-link" type="button" data-url="${b.url}">Copy link</button>
         </div>
       </section>
-      ${upNext('#/build/' + next.id, 'Build ' + pad((idx + 1) % builds.length + 1), next.title, next.summary, BUILD_IMG + next.cover)}
-      <nav class="case-nav" aria-label="More builds">
-        <button class="card" type="button" data-gob="${prev.id}"><small>← Previous build</small><strong>${esc(prev.title)}</strong></button>
-        <button class="card next" type="button" data-gob="${next.id}"><small>Next build →</small><strong>${esc(next.title)}</strong></button>
-      </nav>
-      ${keyHint}`;
-    document.title = `${b.title} | Harshavardhaan`;
+      ${caseNav(prev, next, 'data-gob', 'build')}`;
+    document.title = `${b.title} | Harshavardhaan C`;
   };
 
-  // ---------- Case study helpers ----------
-  const subnav = items => `<nav class="case-subnav" aria-label="On this page">${items.filter(Boolean).map(([id, l]) => `<button type="button" data-jump="${id}">${esc(l)}</button>`).join('')}</nav>`;
-  const upNext = (href, kind, title, text, img) => `
-      <a class="up-next card" href="${href}">
-        <div class="un-img"><img src="${img}" alt="" loading="lazy" decoding="async" /></div>
-        <div class="un-body">
-          <span class="mono">Up next · ${esc(kind)}</span>
-          <strong>${esc(title)}</strong>
-          <p>${esc(text)}</p>
-          <span class="un-go">Continue ${arrow}</span>
-        </div>
-      </a>`;
-  const keyHint = `<p class="key-hint mono">Tip: use <kbd>←</kbd> <kbd>→</kbd> to browse, <kbd>Esc</kbd> to go back</p>`;
-
-  // ---------- Case study view ----------
-  let galleryImages = [];
+  // ---------- Project detail ----------
   const renderCase = idx => {
     const p = projects[idx];
     const prev = projects[(idx - 1 + projects.length) % projects.length];
     const next = projects[(idx + 1) % projects.length];
     galleryImages = p.images.map((f, i) => ({ src: IMG + f, alt: `${p.title}, output ${i + 1}` }));
     caseView.innerHTML = `
-      <div class="case-top"><button class="back" type="button" data-back><svg viewBox="0 0 24 24"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>Back to all projects</button><span class="case-count mono">${pad(idx + 1)} / ${pad(projects.length)}</span></div>
-      <div class="case-head" id="cs-overview">
-        <div>
-          <span class="eyebrow mono">Project ${pad(idx + 1)} · ${esc(p.kicker)}</span>
-          <h1 class="case-title">${esc(p.title)}</h1>
-          <div class="case-tags">${p.tags.map(t => `<span>${esc(t)}</span>`).join('')}</div>
-        </div>
-        ${p.highlight ? `<div class="case-highlight card"><strong>${esc(p.highlight.value)}</strong><span>${esc(p.highlight.label)}</span></div>` : ''}
-      </div>
-      ${subnav([['cs-overview', 'Overview'], p.artifact && ['cs-live', 'Live model'], ['cs-approach', 'Approach & outcomes'], ['cs-outputs', 'Outputs'], p.report && ['cs-report', 'Report']])}
-      <p class="case-overview">${esc(p.overview)}</p>
+      ${backBtn('projects', 'All case studies')}
+      <header class="case-head" id="cs-overview">
+        <p class="proj-kicker">${commas(p.kicker)}</p>
+        <h1 class="case-title">${esc(p.title)}</h1>
+        <p class="case-overview">${esc(p.overview)}</p>
+        ${p.highlight ? `<p class="case-highlight"><span class="figure">${esc(p.highlight.value)}</span> ${esc(p.highlight.label.split(' · ').join(', '))}</p>` : ''}
+        <p class="case-tags">${p.tags.map(esc).join(', ')}</p>
+      </header>
+      ${subnav([['cs-overview', 'Overview'], p.artifact && ['cs-live', 'Live model'], ['cs-approach', 'Approach'], ['cs-outputs', 'Outputs'], p.report && ['cs-report', 'Report']])}
       ${p.artifact ? `
-      <a class="live-model card" id="cs-live" href="${p.artifact.url}" target="_blank" rel="noopener noreferrer" aria-label="Open the interactive model: ${esc(p.artifact.title)}">
-        <div class="live-shot">
-          <img src="${PREVIEWS}${p.artifact.preview}" alt="Preview of the ${esc(p.artifact.title)} interactive model" loading="lazy" decoding="async" />
-          <span class="live-play">${playIcon} Open interactive model</span>
-        </div>
+      <section class="live-model" id="cs-live">
+        <a class="live-shot" href="${p.artifact.url}" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
+          <img src="${PREVIEWS}${p.artifact.preview}" alt="" loading="lazy" decoding="async" />
+        </a>
         <div class="live-info">
-          <span class="live-badge mono"><i></i>Live model</span>
-          <h3>${esc(p.artifact.title)}</h3>
+          <h2>${esc(p.artifact.title)}</h2>
           <p>${esc(p.artifact.blurb)}</p>
-          <span class="btn btn-primary btn-sm">Launch model ↗</span>
+          <a class="btn btn-primary" href="${p.artifact.url}" target="_blank" rel="noopener noreferrer">Open the live model${ext}</a>
         </div>
-      </a>` : ''}
-      <div class="case-columns" id="cs-approach">
-        <div class="case-block card"><h3>Approach</h3><ul>${p.approach.map(a => `<li>${esc(a)}</li>`).join('')}</ul></div>
-        <div class="case-block card outcomes"><h3>Key Outcomes</h3><ul>${p.outcomes.map(o => `<li>${esc(o)}</li>`).join('')}</ul></div>
-      </div>
-      <div class="sub-head" id="cs-outputs"><h2>Outputs</h2><span>Click any image to enlarge</span></div>
-      <div class="gallery${p.images.length === 1 ? ' single' : ''}">
-        ${galleryImages.map((g, i) => `
-          <figure class="card" data-img="${i}">
-            <img src="${g.src}" alt="${esc(g.alt)}" loading="lazy" decoding="async" />
-            <figcaption>Output ${i + 1}<span>Enlarge ↗</span></figcaption>
-          </figure>`).join('')}
-      </div>
+      </section>` : ''}
+      <section class="case-columns" id="cs-approach">
+        <div class="case-block"><h2>Approach</h2><ul>${p.approach.map(a => `<li>${esc(a)}</li>`).join('')}</ul></div>
+        <div class="case-block"><h2>What came out of it</h2><ul>${p.outcomes.map(o => `<li>${esc(o)}</li>`).join('')}</ul></div>
+      </section>
+      <section class="case-section" id="cs-outputs">
+        <h2>Outputs <span class="hint">Select any image to enlarge</span></h2>
+        <div class="gallery${p.images.length === 1 ? ' single' : ''}">
+          ${galleryImages.map((g, i) => `
+            <figure class="exhibit" data-img="${i}" tabindex="0" role="button" aria-label="Enlarge output ${i + 1}">
+              <img src="${g.src}" alt="${esc(g.alt)}" loading="lazy" decoding="async" />
+              <figcaption>Output ${i + 1}</figcaption>
+            </figure>`).join('')}
+        </div>
+      </section>
       ${p.report ? `
-      <div class="report" id="cs-report">
-        <span class="eyebrow mono">${esc(p.report.label)}</span>
+      <section class="case-section report" id="cs-report">
         <h2>${esc(p.report.title)}</h2>
         <div class="report-frame"><iframe src="${REPORTS}${p.report.file}" title="${esc(p.report.title)}" loading="lazy"></iframe></div>
         <div class="report-actions">
-          <a class="btn btn-primary btn-sm" href="${REPORTS}${p.report.file}" target="_blank" rel="noopener">Open full PDF ↗</a>
+          <a class="btn btn-primary btn-sm" href="${REPORTS}${p.report.file}" target="_blank" rel="noopener">Open the PDF${ext}</a>
           <a class="btn btn-ghost btn-sm" href="${REPORTS}${p.report.file}" download>Download</a>
         </div>
-      </div>` : ''}
-      <div class="disclosure"><strong>AI &amp; Work Disclosure</strong><br>AI tools were used selectively for research support, drafting and presentation development. The financial modelling, calculations, analysis and core workings were completed independently by me.</div>
-      ${upNext('#/project/' + next.id, 'Project ' + pad((idx + 1) % projects.length + 1), next.title, next.summary, 'assets/covers/' + next.id + '.jpg')}
-      <nav class="case-nav" aria-label="More projects">
-        <button class="card" type="button" data-go="${prev.id}"><small>← Previous</small><strong>${esc(prev.title)}</strong></button>
-        <button class="card next" type="button" data-go="${next.id}"><small>Next →</small><strong>${esc(next.title)}</strong></button>
-      </nav>
-      ${keyHint}`;
-    document.title = `${p.title} | Harshavardhaan`;
+      </section>` : ''}
+      <aside class="disclosure"><strong>How this was made.</strong> This is a self-study case study. I used AI tools for research, drafting and presentation. The modelling, calculations and analysis are my own work.</aside>
+      ${caseNav(prev, next, 'data-go', 'case study')}`;
+    document.title = `${p.title} | Harshavardhaan C`;
   };
 
   caseView.addEventListener('click', e => {
     const fig = e.target.closest('[data-img]');
     if (fig) return openLightbox(+fig.dataset.img);
     const cl = e.target.closest('.copy-link');
-    if (cl) { navigator.clipboard.writeText(cl.dataset.url).then(() => { cl.textContent = 'Copied ✓'; }).catch(() => { cl.textContent = 'Copy failed'; }); setTimeout(() => { cl.textContent = 'Copy link'; }, 1800); return; }
+    if (cl) { navigator.clipboard.writeText(cl.dataset.url).then(() => { cl.textContent = 'Link copied'; }).catch(() => { cl.textContent = 'Copy failed'; }); setTimeout(() => { cl.textContent = 'Copy link'; }, 1800); return; }
     const jump = e.target.closest('[data-jump]');
-    if (jump) { const t = document.getElementById(jump.dataset.jump); if (t) scrollTo({ top: t.getBoundingClientRect().top + scrollY - 150, behavior: reduceMotion ? 'auto' : 'smooth' }); return; }
+    if (jump) { const t = document.getElementById(jump.dataset.jump); if (t) scrollTo({ top: t.getBoundingClientRect().top + scrollY - 130, behavior: reduceMotion ? 'auto' : 'smooth' }); return; }
     const go = e.target.closest('[data-go]');
     if (go) { location.hash = '#/project/' + go.dataset.go; return; }
     const gob = e.target.closest('[data-gob]');
     if (gob) { location.hash = '#/build/' + gob.dataset.gob; return; }
     const back = e.target.closest('[data-back]');
     if (back) { location.hash = '#' + (back.dataset.back || 'projects'); }
+  });
+  caseView.addEventListener('keydown', e => {
+    const fig = e.target.closest && e.target.closest('figure[data-img]');
+    if (fig && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); openLightbox(+fig.dataset.img); }
   });
 
   // ---------- Router ----------
@@ -392,7 +269,7 @@
     currentPage = pg;
     home.dataset.page = pg;
     const label = (PAGES.find(p => p[0] === pg) || [])[1];
-    document.title = label ? `${label} | Harshavardhaan` : baseTitle;
+    document.title = label ? `${label} | Harshavardhaan C` : baseTitle;
   };
   const route = () => {
     const m = location.hash.match(/^#\/project\/([\w-]+)/);
@@ -417,7 +294,6 @@
         if (holder) pg = holder.dataset.page; else target = null;
       }
       showPage(pg);
-      home.classList.remove('page-in'); void home.offsetWidth; home.classList.add('page-in');
       requestAnimationFrame(() => {
         if (target && pg !== 'home' && target.id === pg) target = null;
         if (target) target.scrollIntoView({ behavior: 'instant' });
@@ -432,23 +308,22 @@
     e.preventDefault();
     history.pushState('', '', location.pathname);
     route();
-    scrollTo({ top: 0, behavior: 'smooth' });
   });
 
   // ---------- Lightbox ----------
   const lb = document.getElementById('lightbox');
   const lbImg = document.getElementById('lbImg');
   const lbCap = document.getElementById('lbCap');
-  let lbIndex = 0;
+  let lbIndex = 0, lastFocus = null;
   const showImg = i => {
     lbIndex = (i + galleryImages.length) % galleryImages.length;
     const g = galleryImages[lbIndex];
     lbImg.src = g.src; lbImg.alt = g.alt;
-    lbCap.textContent = `${g.alt} · ${lbIndex + 1} / ${galleryImages.length}`;
+    lbCap.textContent = galleryImages.length > 1 ? `${g.alt} (${lbIndex + 1} of ${galleryImages.length})` : g.alt;
     lb.querySelectorAll('.lb-prev, .lb-next').forEach(b => { b.hidden = galleryImages.length < 2; });
   };
-  const openLightbox = i => { showImg(i); lb.hidden = false; document.body.classList.add('locked'); };
-  const closeLightbox = () => { lb.hidden = true; document.body.classList.remove('locked'); };
+  const openLightbox = i => { lastFocus = document.activeElement; showImg(i); lb.hidden = false; document.body.classList.add('locked'); lb.querySelector('.lb-close').focus(); };
+  const closeLightbox = () => { lb.hidden = true; document.body.classList.remove('locked'); if (lastFocus) lastFocus.focus(); };
   lb.addEventListener('click', e => {
     if (e.target.closest('.lb-prev')) return showImg(lbIndex - 1);
     if (e.target.closest('.lb-next')) return showImg(lbIndex + 1);
@@ -459,10 +334,12 @@
   const resume = document.getElementById('resumePanel');
   const resumeFrame = resume.querySelector('iframe');
   const openResume = () => {
+    lastFocus = document.activeElement;
     if (!resumeFrame.src) resumeFrame.src = resumeFrame.dataset.src;
     resume.hidden = false; document.body.classList.add('locked');
+    resume.querySelector('.modal-close').focus();
   };
-  const closeResume = () => { resume.hidden = true; document.body.classList.remove('locked'); };
+  const closeResume = () => { resume.hidden = true; document.body.classList.remove('locked'); if (lastFocus) lastFocus.focus(); };
   document.querySelectorAll('[data-resume]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); closeMenu(); openResume(); }));
   resume.querySelector('.modal-close').addEventListener('click', closeResume);
   resume.addEventListener('click', e => { if (e.target === resume) closeResume(); });
@@ -483,36 +360,18 @@
     }
   });
 
-  // ---------- Skill tabs ----------
-  const tabs = [...document.querySelectorAll('.skill-tabs .filter')];
-  const skills = [...document.querySelectorAll('#skillGrid .skill-card')];
-  const applySkills = filter => {
-    tabs.forEach(t => {
-      const on = t.dataset.filter === filter;
-      t.classList.toggle('active', on);
-      t.setAttribute('aria-selected', String(on));
-    });
-    skills.forEach(c => {
-      const show = filter === 'key' ? c.dataset.key === 'true' : c.dataset.category === filter;
-      c.hidden = !show;
-    });
-  };
-  tabs.forEach(t => t.addEventListener('click', () => applySkills(t.dataset.filter)));
-  applySkills('key');
-
   // ---------- Copy email ----------
   const copyBtn = document.querySelector('.copy-email');
   copyBtn.addEventListener('click', async () => {
     try {
       await navigator.clipboard.writeText(copyBtn.dataset.email);
-      copyBtn.textContent = 'Copied ✓';
+      copyBtn.textContent = 'Address copied';
     } catch (e) {
-      copyBtn.textContent = 'Press Ctrl+C';
+      copyBtn.textContent = 'Select and copy the address above';
     }
-    setTimeout(() => { copyBtn.textContent = 'Copy'; }, 1800);
+    setTimeout(() => { copyBtn.textContent = 'Copy address'; }, 2000);
   });
 
   document.getElementById('year').textContent = new Date().getFullYear();
-  observeReveals(document);
   route();
 })();

@@ -6,8 +6,9 @@ Live at **https://harshavardhaan-finance.github.io/**. A static site in plain HT
 
 - `index.html`: home page (hero, projects, builds, capabilities, about, contact)
 - `projects.js`: **all 9 project case studies**. Edit this file to add or change a project (title, summary, approach, outcomes, images, PDF report, interactive model link)
-- `styles.css`: design system (dark/light themes, glass cards, animations)
-- `script.js`: case-study pages (`#/project/<id>`), image lightbox, skill tabs, résumé viewer
+- `styles.css`: design system (light and dark themes, Source Serif 4 + Public Sans, ledger-green accent)
+- `script.js`: page router, case-study pages (`#/project/<id>`), image lightbox, résumé viewer
+- Project cards use the live-model screenshots in `assets/previews/`; `assets/covers/` is the fallback
 - `assets/images/`: project screenshots
 - `assets/reports/`: project PDF reports
 - `assets/previews/`: screenshots of each project's interactive model (shown on the "Live model" links)
