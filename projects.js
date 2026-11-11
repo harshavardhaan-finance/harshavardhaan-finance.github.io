@@ -211,5 +211,30 @@ window.PROJECTS = [
     images: ['project-image-09.png', 'project-image-24.png', 'project-image-25.png', 'project-image-26.png'],
     thumb: 'project-image-09.png',
     report: { label: 'Investor Presentation', title: 'Series B Pitchbook', file: 'Annapurna_Capital_SeriesB_Pitchbook.pdf' }
+    },
+  {
+    id: 'rattanindia-power-cost-sheet',
+    kicker: 'Cost Accounting · Power Sector · Excel',
+    title: 'Power Generation Cost Sheet: RattanIndia Power',
+    summary: 'A cost sheet of electricity generation for RattanIndia Power\'s 1,350 MW Amravati thermal plant, built entirely from published annual reports. It works out cost per kWh for FY 2025-26 with FY 2024-25 comparatives, allocates employee cost between plant and offices, reconciles to reported profit and tests sensitivity to plant load factor.',
+    tags: ['Cost Sheet', 'Cost Accounting', 'CAS-4', 'Power Sector', 'Profit Reconciliation', 'Excel'],
+    overview: 'A costing case on a real, listed thermal power producer. Every input is traced to the annual reports with page references, and finance charges are kept out of cost so plant performance and the cost of funding can be read separately.',
+    highlight: { value: '₹3.17/kWh', label: 'Cost of sales per unit, FY26' },
+    approach: [
+      'Collected operating data (capacity, PLF, auxiliary consumption, units sold) and every expense line from the standalone financial statements, notes and BRSR',
+      'Derived gross generation and net units sent out as the cost unit (Working Note 1)',
+      'Split employee cost between the plant and the offices using BRSR headcount and median pay (Working Note 2)',
+      'Built a conventional cost sheet (prime cost, works cost, cost of production, cost of sales) in ₹ crore and ₹ per kWh, excluding finance charges as per CAS-4',
+      'Reconciled the cost sheet to reported profit before tax and tested cost per unit across PLF levels'
+    ],
+    outcomes: [
+      'Cost of sales of ₹3.17 per kWh against sales of ₹3.34, an operating profit of ₹154.88 Cr on generation in FY26',
+      'Showed that finance charges of ₹461 Cr (₹0.52 per kWh), not plant operations, turn the result into a loss, with reported profit supported by late payment surcharge from MSEDCL',
+      'Explained the year-on-year movement: cost per unit fell by ₹0.28 on higher PLF and cheaper coal, while realisation fell by ₹0.50',
+      'Profit reconciliation ties to the audited profit before tax with zero difference in both years'
+    ],
+    images: ['project-image-27.png', 'project-image-28.png', 'project-image-29.png', 'project-image-30.png'],
+    thumb: 'project-image-27.png',
+    report: { label: 'Report Output', title: 'Project Report', file: 'RattanIndia_Power_Cost_Sheet_Report.pdf' }
   }
 ];
