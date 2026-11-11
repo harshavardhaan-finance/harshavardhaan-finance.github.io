@@ -218,7 +218,7 @@ window.PROJECTS = [
     title: 'Power Generation Cost Sheet: RattanIndia Power',
     summary: 'A cost sheet of electricity generation for RattanIndia Power\'s 1,350 MW Amravati thermal plant, built entirely from published annual reports. It works out cost per kWh for FY 2025-26 with FY 2024-25 comparatives, allocates employee cost between plant and offices, reconciles to reported profit and tests sensitivity to plant load factor.',
     tags: ['Cost Sheet', 'Cost Accounting', 'CAS-4', 'Power Sector', 'Profit Reconciliation', 'Excel'],
-    overview: 'A costing case on a real, listed thermal power producer. Every input is traced to the annual reports with page references, and finance charges are kept out of cost so plant performance and the cost of funding can be read separately.',
+    overview: 'A costing case on a real, listed thermal power producer. Every input is traced to the annual reports with page references, and finance charges are kept out of cost so plant performance and the cost of funding can be read separately. Built in Excel, with NotebookLM for reading the annual reports and research, and Claude for review.',
     highlight: { value: '₹3.17/kWh', label: 'Cost of sales per unit, FY26' },
     approach: [
       'Collected operating data (capacity, PLF, auxiliary consumption, units sold) and every expense line from the standalone financial statements, notes and BRSR',
