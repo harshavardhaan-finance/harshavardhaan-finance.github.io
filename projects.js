@@ -242,23 +242,23 @@ window.PROJECTS = [
     kicker: 'Cost Accounting · Capital Budgeting · Dairy · Excel',
     title: 'Pilot Dairy Farm Make-or-Buy: Milky Mist',
     summary: 'An exploratory case study on whether Milky Mist should run a small dairy farm of its own. A 15-acre pilot with 1,400 HF crossbred cows is costed against buying the same milk, with a product-wise milk forecast, herd model, cost per litre, savings-based NPV and IRR, scenarios and yield and feed sensitivities. Built from public information and stated assumptions.',
-    tags: ['Make or Buy', 'Cost per Litre', 'Capital Budgeting', 'NPV & IRR', 'WACC', 'Sensitivity Analysis', 'Excel'],
+    tags: ['Make or Buy', 'Cost per Litre', 'Capital Budgeting', 'NPV & IRR', 'Market-value WACC', 'Sensitivity Analysis', 'Excel'],
     overview: 'A backward-integration question on a real, fast-growing Tamil Nadu dairy brand, judged on what the farm saves the business rather than on a cost-plus price. The farm is sized at 15 acres, the most a company can hold in Tamil Nadu without land-ceiling permission, and its milk is shown against the needs of individual products. Every input is sourced or labelled as an assumption in an evidence register. Built in Excel, with Google Colab (Python) for the beta regression and Claude as an AI assistant for research, calculations and drafting. This is an exploration, not a recommendation to the company.',
     highlight: { value: '₹38.9/L', label: 'Farm milk cost in FY31, vs ₹57.6 bought' },
     approach: [
       'Forecast sales, volume and milk requirement by product to FY40 from management commentary, eased to realistic growth',
       'Modelled the herd over time: three cow batches, lactation, dry cows, 25% annual replacement and the young stock needed to sustain it',
       'Built the capital cost (land, barns, parlour, solar, cows) and the running cost per litre, with feed linked to yield and item-wise inflation from historical data',
-      'Valued the farm on savings against bought milk, discounted at a pre-tax WACC of 17.46% from my own beta regression against Parag Milk Foods',
+      'Valued the farm on savings against bought milk, discounted at a pre-tax WACC of 19.72%: market-value weights and my own 5-year beta regression on Parag Milk Foods, relevered and Blume-adjusted, with a four-peer cross-check',
       'Tested upside and downside scenarios, a yield and feed cost grid and break-evens, and benchmarked against Parag Milk Foods\' own farm'
     ],
     outcomes: [
       'Farm milk costs about ₹38.9 a litre in FY31 against ₹57.6 for bought milk, a saving of about ₹16 Cr a year',
-      'On ₹57 Cr of capital the pilot just clears its hurdle: NPV of ₹4.7 Cr and IRR of 19.1% against a 17.46% pre-tax WACC',
-      'The case rests on two levers: yield (break-even at 19.5 litres a cow) and feed cost (break-even about 4% above plan)',
+      'On ₹57 Cr of capital the pilot pays back in about 7 years but roughly breaks even after the cost of capital: NPV of about –₹1.5 Cr, IRR 19.1% against a 19.72% pre-tax WACC',
+      'The case rests on two levers: yield (break-even at 20.2 litres a cow) and feed cost (break-even 1.4% below plan)',
       'The farm covers under 1% of total milk but about 6% of Skyr and Greek yoghurt milk, so it is justified more by learning and traceable premium milk than by its return'
     ],
-    images: ['project-image-31.png', 'project-image-35.png', 'project-image-32.png', 'project-image-33.png', 'project-image-34.png'],
+    images: ['project-image-31.png', 'project-image-35.png', 'project-image-32.png', 'project-image-33.png', 'project-image-34.png', 'project-image-36.png'],
     thumb: 'project-image-33.png',
     report: { label: 'Report Output', title: 'Project Report', file: 'Milky_Mist_Pilot_Dairy_Farm_Report.pdf' }
   }
