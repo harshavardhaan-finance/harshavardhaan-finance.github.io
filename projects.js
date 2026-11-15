@@ -214,28 +214,62 @@ window.PROJECTS = [
     },
   {
     id: 'rattanindia-power-cost-sheet',
-    kicker: 'Cost Accounting · Power Sector · Excel',
-    title: 'Power Generation Cost Sheet: RattanIndia Power',
-    summary: 'A cost sheet of electricity generation for RattanIndia Power\'s 1,350 MW Amravati thermal plant, built entirely from published annual reports. It works out cost per kWh for FY 2025-26 with FY 2024-25 comparatives, allocates employee cost between plant and offices, reconciles to reported profit and tests sensitivity to plant load factor.',
-    tags: ['Cost Sheet', 'Cost Accounting', 'CAS-4', 'Power Sector', 'Profit Reconciliation', 'Excel'],
-    overview: 'A costing case on a real, listed thermal power producer. Every input is traced to the annual reports with page references, and finance charges are kept out of cost so plant performance and the cost of funding can be read separately. Built in Excel, with NotebookLM for reading the annual reports and research, and Claude for review.',
-    highlight: { value: '₹3.17/kWh', label: 'Cost of sales per unit, FY26' },
+    kicker: 'Cost Accounting · ESG · Carbon Pricing · Excel',
+    title: 'Carbon-Adjusted Power Cost Sheet: RattanIndia Power',
+    summary: 'Version 2 of the RattanIndia Power cost sheet adds carbon. Using BRSR data and ICMAI\'s Holistic Environmental Costing framework, it measures environmental impacts per kWh, prices carbon to find the break-even, forecasts FY27 generation and emissions, and tests the plant under India\'s Carbon Credit Trading Scheme.',
+    tags: ['Environmental Costing (ICMAI HEC)', 'Carbon Pricing', 'CCTS', 'BRSR', 'Forecasting', 'Cost Sheet', 'Excel'],
+    overview: 'An ESG upgrade to the v1 cost sheet of RattanIndia Power\'s 1,350 MW Amravati coal plant. Environmental data for FY24 to FY26 comes from the company\'s BRSR and is checked against the annual reports. Carbon is costed three ways: as a physical impact per unit, as a shadow price added to the cost sheet, and under a CCTS-style intensity target. The v1 cost sheet and its reconciliation to profit are unchanged. Built in Excel, with Claude as an AI assistant for research, data checks, corrections and formatting.',
+    highlight: { value: '₹197/t', label: 'Break-even carbon price, FY26' },
     approach: [
-      'Collected operating data (capacity, PLF, auxiliary consumption, units sold) and every expense line from the standalone financial statements, notes and BRSR',
-      'Derived gross generation and net units sent out as the cost unit (Working Note 1)',
-      'Split employee cost between the plant and the offices using BRSR headcount and median pay (Working Note 2)',
-      'Built a conventional cost sheet (prime cost, works cost, cost of production, cost of sales) in ₹ crore and ₹ per kWh, excluding finance charges as per CAS-4',
-      'Reconciled the cost sheet to reported profit before tax and tested cost per unit across PLF levels'
+      'Collected FY24 to FY26 BRSR environmental and employee data and checked every figure against the annual reports',
+      'Applied ICMAI\'s Holistic Environmental Costing: traced CO2, fuel, water and ash to plant activities, per kWh and per ₹ of turnover',
+      'Added a shadow carbon cost to the cost sheet at ₹0 to ₹2,000 per tonne as a memo item, keeping the profit reconciliation intact',
+      'Forecast FY27 generation and emissions from Q1 and Q2 actuals and FY26 quarterly seasonality, with a choice of emission factors',
+      'Tested the plant under India\'s CCTS using a FY24 baseline and reduction targets taken from notified sectors, cross-checked against China\'s ETS benchmark for coal plants'
     ],
     outcomes: [
-      'Cost of sales of ₹3.17 per kWh against sales of ₹3.34, an operating profit of ₹154.88 Cr on generation in FY26',
-      'Showed that finance charges of ₹461 Cr (₹0.52 per kWh), not plant operations, turn the result into a loss, with reported profit supported by late payment surcharge from MSEDCL',
-      'Explained the year-on-year movement: cost per unit fell by ₹0.28 on higher PLF and cheaper coal, while realisation fell by ₹0.50',
-      'Profit reconciliation ties to the audited profit before tax with zero difference in both years'
+      'Break-even carbon price of ₹197 per tonne: at ₹1,000 per tonne, cost rises from ₹3.17 to ₹4.04 per kWh and generation turns loss-making unless the cost is passed to MSEDCL',
+      'Environmental costs already in the accounts are 6.4 paise per kWh; carbon at ₹1,000 per tonne adds 87.6 paise, the hidden cost',
+      'Under a CCTS-style scheme the plant earns ₹14.6 Cr of credits in FY26 but owes ₹36.7 Cr in FY27 (base case), about 4 paise per kWh over two years',
+      'Found BRSR gaps: Scope 3 copied from Scope 1, swapped intensity columns in FY25, an unexplained 6% fall in the FY26 emission factor, and no independent assurance'
     ],
-    images: ['project-image-27.png', 'project-image-28.png', 'project-image-29.png', 'project-image-30.png'],
-    thumb: 'project-image-27.png',
-    report: { label: 'Report Output', title: 'Project Report', file: 'RattanIndia_Power_Cost_Sheet_Report.pdf' }
+    images: ['project-image-37.png', 'project-image-38.png', 'project-image-39.png', 'project-image-40.png'],
+    thumb: 'project-image-38.png',
+    report: null,
+    versions: [
+      {
+        label: 'v1',
+        name: 'Cost sheet',
+        note: 'Version 1: the original cost sheet of power generation, with working notes, profit reconciliation and sensitivity.',
+        kicker: 'Cost Accounting · Power Sector · Excel',
+        title: 'Power Generation Cost Sheet: RattanIndia Power',
+        summary: 'A cost sheet of electricity generation for RattanIndia Power\'s 1,350 MW Amravati thermal plant, built entirely from published annual reports. It works out cost per kWh for FY 2025-26 with FY 2024-25 comparatives, allocates employee cost between plant and offices, reconciles to reported profit and tests sensitivity to plant load factor.',
+        tags: ['Cost Sheet', 'Cost Accounting', 'CAS-4', 'Power Sector', 'Profit Reconciliation', 'Excel'],
+        overview: 'A costing case on a real, listed thermal power producer. Every input is traced to the annual reports with page references, and finance charges are kept out of cost so plant performance and the cost of funding can be read separately. Built in Excel, with NotebookLM for reading the annual reports and research, and Claude for review.',
+        highlight: { value: '₹3.17/kWh', label: 'Cost of sales per unit, FY26' },
+        approach: [
+        'Collected operating data (capacity, PLF, auxiliary consumption, units sold) and every expense line from the standalone financial statements, notes and BRSR',
+        'Derived gross generation and net units sent out as the cost unit (Working Note 1)',
+        'Split employee cost between the plant and the offices using BRSR headcount and median pay (Working Note 2)',
+        'Built a conventional cost sheet (prime cost, works cost, cost of production, cost of sales) in ₹ crore and ₹ per kWh, excluding finance charges as per CAS-4',
+        'Reconciled the cost sheet to reported profit before tax and tested cost per unit across PLF levels'
+        ],
+        outcomes: [
+        'Cost of sales of ₹3.17 per kWh against sales of ₹3.34, an operating profit of ₹154.88 Cr on generation in FY26',
+        'Showed that finance charges of ₹461 Cr (₹0.52 per kWh), not plant operations, turn the result into a loss, with reported profit supported by late payment surcharge from MSEDCL',
+        'Explained the year-on-year movement: cost per unit fell by ₹0.28 on higher PLF and cheaper coal, while realisation fell by ₹0.50',
+        'Profit reconciliation ties to the audited profit before tax with zero difference in both years'
+        ],
+        images: ['project-image-27.png', 'project-image-28.png', 'project-image-29.png', 'project-image-30.png'],
+        thumb: 'project-image-27.png',
+        report: { label: 'Report Output', title: 'Project Report', file: 'RattanIndia_Power_Cost_Sheet_Report.pdf' }
+      },
+      {
+        label: 'v2',
+        name: 'Carbon & ESG costing',
+        note: 'Version 2 builds on v1 with ESG data, ICMAI environmental costing, a carbon-adjusted cost sheet, an FY27 forecast and a CCTS evaluation. The v1 cost sheet is unchanged.'
+      }
+    ]
   },
   {
     id: 'milky-mist-pilot-dairy-farm',

@@ -5,7 +5,7 @@ Personal portfolio of **Harshavardhaan**, a CMA-qualified finance professional. 
 Live at **https://harshavardhaan-finance.github.io/**. A static site in plain HTML, CSS and JS with no build step.
 
 - `index.html`: home page (hero, projects, builds, capabilities, about, contact)
-- `projects.js`: **all 11 project case studies**. Edit this file to add or change a project (title, summary, approach, outcomes, images, PDF report, interactive model link)
+- `projects.js`: **all 11 project case studies**. Edit this file to add or change a project (title, summary, approach, outcomes, images, PDF report, interactive model link). A project can carry a `versions` list (v1, v2…); the case page then shows a version switcher, and `#/project/<id>/v1` opens an older version
 - `styles.css`: design system (dark/light themes, glass cards, animations)
 - `script.js`: case-study pages (`#/project/<id>`), image lightbox, skill tabs, résumé viewer
 - `assets/images/`: project screenshots
