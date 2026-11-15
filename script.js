@@ -306,8 +306,15 @@
 
   // ---------- Case study view ----------
   let galleryImages = [];
-  const renderCase = idx => {
-    const p = projects[idx];
+  const renderCase = (idx, ver) => {
+    const base = projects[idx];
+    const versions = base.versions || null;
+    const latest = versions ? versions[versions.length - 1] : null;
+    const vsel = versions ? (versions.find(v => v.label === ver) || latest) : null;
+    const p = vsel ? { ...base, ...vsel } : base;
+    const versionBar = versions ? `
+      <div class="version-switch" role="tablist" aria-label="Project versions">${versions.map(v => `<a role="tab" aria-selected="${v === vsel}" class="${v === vsel ? 'on' : ''}" href="#/project/${base.id}${v === latest ? '' : '/' + v.label}"><b class="mono">${esc(v.label.toUpperCase())}</b>${esc(v.name)}${v === latest ? '<small>latest</small>' : ''}</a>`).join('')}</div>
+      ${vsel.note ? `<p class="version-note">${esc(vsel.note)}</p>` : ''}` : '';
     const prev = projects[(idx - 1 + projects.length) % projects.length];
     const next = projects[(idx + 1) % projects.length];
     galleryImages = p.images.map((f, i) => ({ src: IMG + f, alt: `${p.title}, output ${i + 1}` }));
@@ -321,6 +328,7 @@
         </div>
         ${p.highlight ? `<div class="case-highlight card"><strong>${esc(p.highlight.value)}</strong><span>${esc(p.highlight.label)}</span></div>` : ''}
       </div>
+      ${versionBar}
       ${subnav([['cs-overview', 'Overview'], p.artifact && ['cs-live', 'Live model'], ['cs-approach', 'Approach & outcomes'], ['cs-outputs', 'Outputs'], p.report && ['cs-report', 'Report']])}
       <p class="case-overview">${esc(p.overview)}</p>
       ${p.artifact ? `
@@ -395,12 +403,12 @@
     document.title = label ? `${label} | Harshavardhaan` : baseTitle;
   };
   const route = () => {
-    const m = location.hash.match(/^#\/project\/([\w-]+)/);
+    const m = location.hash.match(/^#\/project\/([\w-]+)(?:\/(v\d+))?/);
     const mb = location.hash.match(/^#\/build\/([\w-]+)/);
     const idx = m ? projects.findIndex(p => p.id === m[1]) : -1;
     const bidx = mb ? builds.findIndex(b => b.id === mb[1]) : -1;
     if (idx >= 0 || bidx >= 0) {
-      if (idx >= 0) renderCase(idx); else renderBuild(bidx);
+      if (idx >= 0) renderCase(idx, m[2]); else renderBuild(bidx);
       home.hidden = true;
       caseView.hidden = false;
       scrollTo({ top: 0, behavior: 'instant' });
