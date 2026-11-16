@@ -295,5 +295,30 @@ window.PROJECTS = [
     images: ['project-image-31.png', 'project-image-35.png', 'project-image-32.png', 'project-image-33.png', 'project-image-34.png', 'project-image-36.png'],
     thumb: 'project-image-33.png',
     report: { label: 'Report Output', title: 'Project Report', file: 'Milky_Mist_Pilot_Dairy_Farm_Report.pdf' }
+  },
+  {
+    id: 'ponni-sugars-cost-sheet',
+    kicker: 'Cost Accounting · By-product Costing · Sugar · Excel',
+    title: 'Sugar Cost Sheet with By-product Costing: Ponni Sugars',
+    summary: 'An exploratory case study on what a quintal of white sugar really costs at Ponni Sugars (Erode) Ltd once molasses and bagasse are counted. A practical sugar mill cost sheet for FY 2025-26 with FY 2024-25 comparatives, by-product credits at realisable value and a check against the company\'s segment note. Built only from public information.',
+    tags: ['By-product Costing', 'Cost Sheet', 'Cost per Quintal', 'Transfer Pricing', 'Capacity Utilisation', 'Excel'],
+    overview: 'One tonne of cane gives three products: sugar, molasses and bagasse. Bagasse fuels the company\'s own co-generation plant, which sells steam and power back to the mill. The project costs sugar as the main product, credits the by-products at their realisable value and tests the answer against the sugar segment result in the annual report. Quantities come from the company\'s published cane crushed and days worked, with by-product yields estimated from TNPCB consent ratios. Built as a guided Excel workbook in standard units, with Claude as an AI assistant for research support, workbook structuring and review. The analysis and checks are my own. This is an exploration, not the company\'s cost record.',
+    highlight: { value: '₹3,957/qtl', label: 'Cost of sugar produced, after ₹1,325 of by-product credit' },
+    approach: [
+      'Collected every input from the FY26 and FY25 annual reports with page references, in standard units (cane in tonnes, sugar in quintals, money in ₹ lakh)',
+      'Worked out quantities and capacity use: 7.06 lakh tonnes of cane crushed in 250 days, 80.6% of capacity against 70.6% a year earlier',
+      'Valued molasses at sales adjusted for stock and bagasse at its transfer price to co-gen, and checked the implied bagasse price of about ₹2,498 a tonne against TNERC\'s normative ₹2,506.59',
+      'Built a 27-line cost sheet of white sugar in ₹ lakh and ₹ per quintal, splitting shared costs 60% sugar, 15% co-gen and 25% admin',
+      'Compared the result with the reported sugar segment result, adding back head office costs the company keeps outside segments'
+    ],
+    outcomes: [
+      'Sugar costs about ₹5,282 a quintal before by-products; molasses and bagasse bring it down to ₹3,957',
+      'Cost of sales is ₹4,112 a quintal against a selling price of ₹4,059, so sugar alone roughly breaks even (loss of ₹358 lakh)',
+      'Sugarcane is 77% of manufacturing cost, so recovery is the main lever: each 0.1% adds about 7,000 quintals from the same cane',
+      'The result is within ₹96 lakh of the reported segment result, under 0.3% of sugar cost; the co-generation unit earned about twice the sugar segment'
+    ],
+    images: ['project-image-45.png', 'project-image-44.png', 'project-image-43.png', 'project-image-42.png', 'project-image-41.png'],
+    thumb: 'project-image-45.png',
+    report: { label: 'Report Output', title: 'Project Report', file: 'Ponni_Sugars_Cost_Sheet_Report.pdf' }
   }
 ];

@@ -137,6 +137,7 @@
     'sales-budget-variance': ['fpa'], 'material-budget-hedging': ['fpa'],
     'cash-flow-13-week': ['treasury'], 'sql-working-capital': ['treasury', 'analytics'],
     'power-bi-dashboard': ['analytics'], 'portfolio-optimization': ['analytics'],
+    'rattanindia-power-cost-sheet': ['fpa'], 'milky-mist-pilot-dairy-farm': ['fpa'], 'ponni-sugars-cost-sheet': ['fpa'],
   };
   const FILTERS = [['all', 'All projects'], ['valuation', 'Modelling & valuation'], ['fpa', 'FP&A & costing'], ['treasury', 'Treasury & working capital'], ['analytics', 'Analytics & BI']];
   grid.insertAdjacentHTML('beforebegin', `<div class="proj-filters reveal" role="toolbar" aria-label="Filter projects">${FILTERS.map(([k, l], i) =>
