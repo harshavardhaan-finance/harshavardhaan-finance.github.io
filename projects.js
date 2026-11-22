@@ -214,6 +214,7 @@ window.PROJECTS = [
     },
   {
     id: 'rattanindia-power-cost-sheet',
+    data: 'public',
     kicker: 'Cost Accounting · ESG · Carbon Pricing · Excel',
     title: 'Carbon-Adjusted Power Cost Sheet: RattanIndia Power',
     summary: 'Version 2 of the RattanIndia Power cost sheet adds carbon. Using BRSR data and ICMAI\'s Holistic Environmental Costing framework, it measures environmental impacts per kWh, prices carbon to find the break-even, forecasts FY27 generation and emissions, and tests the plant under India\'s Carbon Credit Trading Scheme.',
@@ -273,6 +274,7 @@ window.PROJECTS = [
   },
   {
     id: 'milky-mist-pilot-dairy-farm',
+    data: 'public',
     kicker: 'Cost Accounting · Capital Budgeting · Dairy · Excel',
     title: 'Pilot Dairy Farm Make-or-Buy: Milky Mist',
     summary: 'An exploratory case study on whether Milky Mist should run a small dairy farm of its own. A 15-acre pilot with 1,400 HF crossbred cows is costed against buying the same milk, with a product-wise milk forecast, herd model, cost per litre, savings-based NPV and IRR, scenarios and yield and feed sensitivities. Built from public information and stated assumptions.',
@@ -298,6 +300,7 @@ window.PROJECTS = [
   },
   {
     id: 'ponni-sugars-cost-sheet',
+    data: 'public',
     kicker: 'Cost Accounting · By-product Costing · Sugar · Excel',
     title: 'Sugar Cost Sheet with By-product Costing: Ponni Sugars',
     summary: 'An exploratory case study on what a quintal of white sugar really costs at Ponni Sugars (Erode) Ltd once molasses and bagasse are counted. A practical sugar mill cost sheet for FY 2025-26 with FY 2024-25 comparatives, by-product credits at realisable value and a check against the company\'s segment note. Built only from public information.',

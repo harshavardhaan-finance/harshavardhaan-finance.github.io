@@ -1,11 +1,11 @@
 # Harshavardhaan: Finance & Analysis Portfolio
 
-Personal portfolio of **Harshavardhaan**, a CMA-qualified finance professional. It covers financial modelling, FP&A, valuation, costing and analytics.
+Personal portfolio of **Harshavardhaan C**, a qualified CMA (Aug 2026) with 15 months of practical experience in accounting, costing, tax and audit. It shows self-study projects in costing, budgeting, financial analysis and valuation.
 
 Live at **https://harshavardhaan-finance.github.io/**. A static site in plain HTML, CSS and JS with no build step.
 
 - `index.html`: home page (hero, projects, builds, capabilities, about, contact)
-- `projects.js`: **all 12 project case studies**. Edit this file to add or change a project (title, summary, approach, outcomes, images, PDF report, interactive model link). A project can carry a `versions` list (v1, v2…); the case page then shows a version switcher, and `#/project/<id>/v1` opens an older version
+- `projects.js`: **all 12 project case studies**. Edit this file to add or change a project (title, summary, approach, outcomes, images, PDF report, interactive model link). A project can carry a `versions` list (v1, v2…); the case page then shows a version switcher, and `#/project/<id>/v1` opens an older version. Set `data: 'public'` on a project built from a real company's public reports; every other project is labelled as a practice case with AI-generated data
 - `styles.css`: design system (dark/light themes, glass cards, animations)
 - `script.js`: case-study pages (`#/project/<id>`), image lightbox, skill tabs, résumé viewer
 - `assets/images/`: project screenshots
@@ -14,7 +14,7 @@ Live at **https://harshavardhaan-finance.github.io/**. A static site in plain HT
 - `assets/covers/`: project card cover images (one per project, named by project id)
 - `builds.js`: the Builds section (cards and detail pages)
 - `assets/builds/`: Builds cover images
-- `assets/resume/Harshavardhaan_Resume.pdf`: résumé
+- `assets/resume/Harshavardhaan_Resume.pdf`: résumé (the general résumé, without the phone number since the site is public)
 
 ## Run locally
 

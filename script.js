@@ -131,15 +131,18 @@
 
   // ---------- Project cards ----------
   const grid = document.getElementById('projectGrid');
-  const FEATURED = 'startup-valuation';
+  const FEATURED = 'rattanindia-power-cost-sheet';
   const GROUPS = {
-    'dcf-valuation': ['valuation'], 'project-decision-analysis': ['valuation'], 'startup-valuation': ['valuation'],
-    'sales-budget-variance': ['fpa'], 'material-budget-hedging': ['fpa'],
-    'cash-flow-13-week': ['treasury'], 'sql-working-capital': ['treasury', 'analytics'],
+    'rattanindia-power-cost-sheet': ['costing'], 'ponni-sugars-cost-sheet': ['costing'], 'milky-mist-pilot-dairy-farm': ['costing', 'valuation'],
+    'sales-budget-variance': ['budgeting'], 'material-budget-hedging': ['costing', 'budgeting'],
+    'cash-flow-13-week': ['cash'], 'sql-working-capital': ['cash', 'analytics'],
     'power-bi-dashboard': ['analytics'], 'portfolio-optimization': ['analytics'],
-    'rattanindia-power-cost-sheet': ['fpa'], 'milky-mist-pilot-dairy-farm': ['fpa'], 'ponni-sugars-cost-sheet': ['fpa'],
+    'dcf-valuation': ['valuation'], 'project-decision-analysis': ['valuation'], 'startup-valuation': ['valuation'],
   };
-  const FILTERS = [['all', 'All projects'], ['valuation', 'Modelling & valuation'], ['fpa', 'FP&A & costing'], ['treasury', 'Treasury & working capital'], ['analytics', 'Analytics & BI']];
+  const FILTERS = [['all', 'All projects'], ['costing', 'Costing'], ['budgeting', 'Budgeting & variance'], ['cash', 'Cash & working capital'], ['analytics', 'Analytics & BI'], ['valuation', 'Valuation & investment']];
+  const dataTag = p => p.data === 'public'
+    ? '<span class="data-tag public">Real company · public data</span>'
+    : '<span class="data-tag">Practice case · AI-generated data</span>';
   grid.insertAdjacentHTML('beforebegin', `<div class="proj-filters reveal" role="toolbar" aria-label="Filter projects">${FILTERS.map(([k, l], i) =>
     `<button class="filter${i ? '' : ' active'}" type="button" data-pf="${k}" aria-pressed="${!i}">${esc(l)} <span class="mono">${k === 'all' ? projects.length : projects.filter(p => (GROUPS[p.id] || []).includes(k)).length}</span></button>`).join('')}</div>`);
   grid.innerHTML = projects.map((p, i) => `
@@ -153,6 +156,7 @@
         <div class="proj-body">
           <span class="proj-kicker">${esc(p.kicker)}</span>
           <h3>${esc(p.title)}</h3>
+          ${dataTag(p)}
           <p>${esc(p.summary)}</p>
           <span class="proj-link">View full case study ${arrow}</span>
         </div>
@@ -218,10 +222,10 @@
         </div>
       </a>`;
   const TILES = [
-    ['projects', 'Projects', `${projects.length} case studies with models, reports and live versions`, 'P'],
+    ['projects', 'Projects', `${projects.length} self-study case studies with models and reports`, 'P'],
     ['builds', 'Builds', `${builds.length} experiments with Python, AI tools and low-code`, 'B'],
     ['capabilities', 'Capabilities', 'Finance, technical and soft skills', 'C'],
-    ['about', 'About', 'Background, what I am learning, and my goal and vision', 'A'],
+    ['about', 'About', 'Experience, education, what I am learning and interests', 'A'],
     ['contact', 'Contact', 'Email, LinkedIn and GitHub', '@'],
   ];
   document.getElementById('exploreGrid').innerHTML = TILES.map(([id, t, d, ic]) => `
@@ -367,7 +371,9 @@
           <a class="btn btn-ghost btn-sm" href="${REPORTS}${p.report.file}" download>Download</a>
         </div>
       </div>` : ''}
-      <div class="disclosure"><strong>AI &amp; Work Disclosure</strong><br>AI tools were used selectively for research support, drafting and presentation development. The financial modelling, calculations, analysis and core workings were completed independently by me.</div>
+      <div class="disclosure"><strong>Data &amp; AI disclosure</strong><br>${p.data === 'public'
+        ? 'Built from the company\'s published annual reports and other public information; figures that are my assumptions are labelled in the workings.'
+        : 'A practice case. The company is fictional and the case data was generated with AI help, so the figures are illustrative, not real results.'} I built the model structure, calculations and analysis; AI tools helped with research, reading documents, drafting and presentation, and I checked the outputs.</div>
       ${upNext('#/project/' + next.id, 'Project ' + pad((idx + 1) % projects.length + 1), next.title, next.summary, 'assets/covers/' + next.id + '.jpg')}
       <nav class="case-nav" aria-label="More projects">
         <button class="card" type="button" data-go="${prev.id}"><small>← Previous</small><strong>${esc(prev.title)}</strong></button>
