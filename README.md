@@ -1,6 +1,6 @@
 # Harshavardhaan: Finance & Analysis Portfolio
 
-Personal portfolio of **Harshavardhaan C**, a qualified CMA (Aug 2026) with 15 months of practical experience in accounting, costing, tax and audit. It shows self-study projects in costing, budgeting, financial analysis and valuation.
+Personal portfolio of **Harshavardhaan C**, a qualified CMA (Aug 2026) with 15 months of practical experience, focused on costing, corporate finance and financial analysis. It shows self-study projects in costing, FP&A, treasury, valuation and project finance.
 
 Live at **https://harshavardhaan-finance.github.io/**. A static site in plain HTML, CSS and JS with no build step.
 

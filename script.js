@@ -139,7 +139,7 @@
     'power-bi-dashboard': ['analytics'], 'portfolio-optimization': ['analytics'],
     'dcf-valuation': ['valuation'], 'project-decision-analysis': ['valuation'], 'startup-valuation': ['valuation'],
   };
-  const FILTERS = [['all', 'All projects'], ['costing', 'Costing'], ['budgeting', 'Budgeting & variance'], ['cash', 'Cash & working capital'], ['analytics', 'Analytics & BI'], ['valuation', 'Valuation & investment']];
+  const FILTERS = [['all', 'All projects'], ['costing', 'Costing'], ['budgeting', 'FP&A & budgeting'], ['cash', 'Treasury & working capital'], ['valuation', 'Valuation & project finance'], ['analytics', 'Analytics & BI']];
   const dataTag = p => p.data === 'public'
     ? '<span class="data-tag public">Real company · public data</span>'
     : '<span class="data-tag">Practice case · AI-generated data</span>';
