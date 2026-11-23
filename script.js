@@ -102,6 +102,7 @@
   const dotEnd = document.getElementById('dotEnd');
   const W = 400, H = 110, N = 14;
   const drawChart = () => {
+    if (!line || !area || !dotEnd) return;
     let v = 30, pts = [];
     for (let i = 0; i < N; i++) {
       v += 4 + Math.sin(i * 1.2 + Math.random() * 2) * 6 + Math.random() * 3;
@@ -127,22 +128,27 @@
     }
   };
   drawChart();
-  if (!reduceMotion) setInterval(drawChart, 6000);
+  if (line && !reduceMotion) setInterval(drawChart, 6000);
 
   // ---------- Project cards ----------
   const grid = document.getElementById('projectGrid');
-  const FEATURED = 'startup-valuation';
+  const FEATURED = 'rattanindia-power-cost-sheet';
+  // Real companies, built from public data; everything else is a practice case on a fictional company
+  const REAL = ['rattanindia-power-cost-sheet', 'ponni-sugars-cost-sheet', 'milky-mist-pilot-dairy-farm'];
+  // Display order on the projects page (case numbering still follows projects.js)
+  const ORDER = ['rattanindia-power-cost-sheet', 'ponni-sugars-cost-sheet', 'milky-mist-pilot-dairy-farm', 'project-decision-analysis', 'material-budget-hedging', 'sales-budget-variance', 'cash-flow-13-week', 'dcf-valuation', 'startup-valuation', 'sql-working-capital', 'power-bi-dashboard', 'portfolio-optimization'];
+  const ordered = [...projects].sort((a, b) => (ORDER.indexOf(a.id) + 1 || 99) - (ORDER.indexOf(b.id) + 1 || 99));
   const GROUPS = {
     'dcf-valuation': ['valuation'], 'project-decision-analysis': ['valuation'], 'startup-valuation': ['valuation'],
-    'sales-budget-variance': ['fpa'], 'material-budget-hedging': ['fpa'],
+    'sales-budget-variance': ['fpa'], 'material-budget-hedging': ['fpa', 'costing'],
     'cash-flow-13-week': ['treasury'], 'sql-working-capital': ['treasury', 'analytics'],
     'power-bi-dashboard': ['analytics'], 'portfolio-optimization': ['analytics'],
-    'rattanindia-power-cost-sheet': ['fpa'], 'milky-mist-pilot-dairy-farm': ['fpa'], 'ponni-sugars-cost-sheet': ['fpa'],
+    'rattanindia-power-cost-sheet': ['costing'], 'milky-mist-pilot-dairy-farm': ['costing', 'valuation'], 'ponni-sugars-cost-sheet': ['costing'],
   };
-  const FILTERS = [['all', 'All projects'], ['valuation', 'Modelling & valuation'], ['fpa', 'FP&A & costing'], ['treasury', 'Treasury & working capital'], ['analytics', 'Analytics & BI']];
+  const FILTERS = [['all', 'All projects'], ['costing', 'Costing'], ['fpa', 'Budgeting & FP&A'], ['valuation', 'Valuation & appraisal'], ['treasury', 'Treasury & working capital'], ['analytics', 'Analytics & BI']];
   grid.insertAdjacentHTML('beforebegin', `<div class="proj-filters reveal" role="toolbar" aria-label="Filter projects">${FILTERS.map(([k, l], i) =>
     `<button class="filter${i ? '' : ' active'}" type="button" data-pf="${k}" aria-pressed="${!i}">${esc(l)} <span class="mono">${k === 'all' ? projects.length : projects.filter(p => (GROUPS[p.id] || []).includes(k)).length}</span></button>`).join('')}</div>`);
-  grid.innerHTML = projects.map((p, i) => `
+  grid.innerHTML = ordered.map((p, i) => `
     <article class="proj card reveal${p.id === FEATURED ? ' featured' : ''}" data-groups="${(GROUPS[p.id] || []).join(' ')}">
       <a class="proj-main" href="#/project/${p.id}" aria-label="Open case study: ${esc(p.title)}">
         <div class="proj-thumb">
@@ -151,9 +157,11 @@
           <span class="proj-count">${p.images.length} image${p.images.length > 1 ? 's' : ''}${p.report ? ' · PDF' : ''}</span>
         </div>
         <div class="proj-body">
+          ${REAL.includes(p.id) ? '<span class="real-badge mono"><i></i>Real company · public data</span>' : ''}
           <span class="proj-kicker">${esc(p.kicker)}</span>
           <h3>${esc(p.title)}</h3>
           <p>${esc(p.summary)}</p>
+          ${p.id === FEATURED ? `${p.highlight ? `<div class="hf-stat"><b class="mono">${esc(p.highlight.value)}</b><span>${esc(p.highlight.label)}</span></div>` : ''}<ul class="feat-outcomes">${p.outcomes.slice(0, 2).map(o => `<li>${esc(o)}</li>`).join('')}</ul>` : ''}
           <span class="proj-link">View full case study ${arrow}</span>
         </div>
       </a>
@@ -206,21 +214,26 @@
     </article>`).join('');
 
   // ---------- Home: featured + explore tiles ----------
-  const fp = projects.find(p => p.id === FEATURED);
-  if (fp) document.getElementById('homeFeatured').innerHTML = `
-      <a class="home-feature card reveal" href="#/project/${fp.id}">
-        <div class="hf-img"><img src="assets/covers/${fp.id}.jpg" alt="${esc(fp.title)}" loading="lazy" decoding="async" /></div>
+  const HOME_FEATURED = [['rattanindia-power-cost-sheet', 'v1'], ['ponni-sugars-cost-sheet', null]];
+  document.getElementById('homeFeatured').innerHTML = `<div class="hf-pair">${HOME_FEATURED.map(([id, ver]) => {
+    const base = projects.find(p => p.id === id); if (!base) return '';
+    const v = ver && base.versions ? base.versions.find(x => x.label === ver) : null;
+    const p = v ? { ...base, ...v } : base;
+    return `
+      <a class="hf-card card reveal" href="#/project/${id}${ver ? '/' + ver : ''}">
+        <div class="hf-img"><img src="assets/covers/${id}.jpg" alt="${esc(p.title)}" loading="lazy" decoding="async" /></div>
         <div class="hf-body">
-          <span class="mono">Featured project</span>
-          <strong>${esc(fp.title)}</strong>
-          <p>${esc(fp.summary)}</p>
+          <span class="real-badge mono"><i></i>Real company · public data</span>
+          <strong>${esc(p.title)}</strong>
+          ${p.highlight ? `<div class="hf-stat"><b class="mono">${esc(p.highlight.value)}</b><span>${esc(p.highlight.label)}</span></div>` : ''}
+          <p>${esc(p.outcomes[0])}</p>
           <span class="un-go">Read the case study ${arrow}</span>
         </div>
-      </a>`;
+      </a>`; }).join('')}</div>`;
   const TILES = [
     ['projects', 'Projects', `${projects.length} case studies with models, reports and live versions`, 'P'],
     ['builds', 'Builds', `${builds.length} experiments with Python, AI tools and low-code`, 'B'],
-    ['capabilities', 'Capabilities', 'Finance, technical and soft skills', 'C'],
+    ['capabilities', 'Capabilities', 'Costing, finance and technical skills', 'C'],
     ['about', 'About', 'Background, what I am learning, and my goal and vision', 'A'],
     ['contact', 'Contact', 'Email, LinkedIn and GitHub', '@'],
   ];
